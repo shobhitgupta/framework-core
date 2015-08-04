@@ -1,0 +1,339 @@
+/* 
+    Document   : design
+    Created on : May 7, 2013, 2:32:34 PM
+    Author     : VS102359
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+
+html,body{
+    margin: 0;
+    padding: 0;
+    height: 100%;   
+    text-align: center;  
+
+    min-width: 1200px;
+    min-height: 750px;    
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    background-color:#C6B9AC;
+    background-color: #82BC00;
+    /*background-color: #E03C31;
+    background-color: #21ABCD;*/
+    background-color: #0F212E;
+}
+
+#mainTable{
+    height: 100%;
+    width: 85%;
+    margin: 0 auto;
+
+    border-collapse: collapse;
+
+    border-left: 1px solid #ccc ;
+    border-right: 1px solid #ccc ;
+
+    /*box-shadow: 1px 1px 10px 3px #ccc;*/
+
+    background-color: white;
+}
+
+
+#header{
+    height: 120px;
+    text-align: center;
+    border-bottom: 1px solid #ccc ;
+
+
+    /*text-shadow: 1px 0 1px #cccccc;*/
+    color: #222;
+
+}
+
+#headertext{    
+	padding-top:15px;
+    font-family: Segoe UI Light;   
+    font-size: 36px;
+    color: black;
+}
+
+#logo{
+
+}
+
+
+#container{
+
+}
+
+#menu{
+    border-right: 1px solid #ccc ;
+    width: 17%;
+    vertical-align: top;
+    box-shadow: 1px 0px 2px 1px #ccc;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+
+}
+
+.filter{
+margin-top:60px;
+margin-right:10px;
+
+
+    box-shadow: 0 0 5px #ccc;
+
+    border:1px solid darkgrey; 
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+
+  
+
+    text-shadow: 0 1px 1px rgba(255,255,255,.3);
+    color:black ;
+   
+background-color: #F2F2F2;
+}
+
+.filter:hover{
+background-color: white;
+}
+
+.filterOption{
+padding:2px;
+
+}
+
+
+.tcReportMenu a{
+    text-align: left;
+    display: block;
+    text-decoration: none;
+
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #f0f0f0;
+    padding: 8px;
+}
+.tcReportMenu a:hover{
+    background-color: #F2F2F2;
+}
+
+#menu ul{
+    margin: 0;
+    padding: 0;
+    padding-top: 15px;
+    list-style-type: none;
+    text-align: center;
+
+    /*text-shadow: 0px 0px 0px #4d4d4d;*/
+    color: black;
+    /*font: 19px 'LeagueGothicRegular';*/
+
+}
+
+#menu ul li{
+
+    margin-left: 10%;
+    margin-right: 10%;
+    height: 28px;  
+
+}
+
+.menuStyle{
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: #f0f0f0;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+#menu ul a {
+    display: block;
+    text-decoration: none;
+    height: 100%;
+
+
+}
+
+#menu ul a:link,a:visited,a:active{
+    color: #585858;
+}
+
+#menu ul a:hover {
+    display: block;
+    text-decoration: none;
+    border-top: 1px solid #ccc ;
+    border-bottom: 1px solid #ccc ;
+
+    box-shadow: 0 0 5px #ccc;
+
+    border:1px solid darkgrey; 
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+
+    text-shadow: 0px 1px 1px #4d4d4d;
+
+    text-shadow: 0 1px 1px rgba(255,255,255,.3);
+
+
+    /*text-shadow: -1px -1px 0 rgba(0,0,0,0.3);*/
+    text-align: center; 
+    color:black ;
+    background-color: #F2F2F2;
+    /*Picked from http://cssgradientbutton.com/*/
+}
+
+
+.chartStyle{
+
+    height: 290px;
+
+    margin-top: 30px;
+    width: 85%;
+
+
+    border-style: solid;
+    border-width: 1px;
+    border-color: #B0B0B0;
+
+    /* Shadow for boxes */
+    -moz-box-shadow: 0 0 10px #CCCCCC;
+    -ms-box-shadow: 0 0 10px #CCCCCC;
+    -webkit-box-shadow: 0 0 10px #CCCCCC;
+    box-shadow: 0 0 10px #CCCCCC;
+
+    zoom: 1;
+    filter: progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=0),
+        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=90),
+        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=180),
+        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=270);
+    background-color: white;
+} 
+
+.chartStyle:hover{
+    background-color:#F2F2F2;
+}
+
+#content{
+    width: 80%;
+    vertical-align: top;
+    padding: 15px;
+}
+
+
+#footer{
+    height: 40px;
+    text-align: center;
+    border-top: 1px solid #ccc ;
+    font-size: 13px;
+    background-color: #F2F2F2;
+    color: black;    
+}
+
+#footer a{
+    color: #0066FF;
+}
+
+
+/***************************************************************************/
+#tableStyle{
+    background-color: white;
+    color: #585858;
+
+    font-size: 13px;
+
+    margin: 0 auto;
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+
+    width: 100%;
+
+    border-collapse:collapse;
+
+    /* Shadow for boxes */
+    -moz-box-shadow: 0 0 10px #CCCCCC;
+    -ms-box-shadow: 0 0 10px #CCCCCC;
+    -webkit-box-shadow: 0 0 10px #CCCCCC;
+    box-shadow: 0 0 10px #CCCCCC;
+
+    zoom: 1;
+    filter:  progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=0),
+        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=90),
+        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=180),
+        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=270);
+}
+#tableStyle img{
+    margin: 0;
+    padding: 0;
+    height: 20px;
+    width: 70px;
+    border: 1px solid skyblue;
+}
+
+
+#tableStyle th{
+    font-size: 16px;   
+    font-family: Segoe UI Light;
+    height: 35px;
+    background-color: #E9DC02 ;
+    color: black;
+}
+#tableStyle td
+{
+    border: 1px solid #ccc;
+    padding: 4px 4px;                
+}
+
+#tableStyle a:link,a:visited,a:active{
+    display: block;
+    color: #585858;
+    text-decoration: none;
+}
+
+#tableStyle a:hover{
+    color: #0066FF;
+}
+
+.info{
+    
+    font-family: Segoe UI Light;
+    margin-top: 0px;
+    border-radius: 3px;
+    padding-top: 0px;    
+    padding-bottom: 10px;
+    border: 1px solid #ccc; 
+    border-top: 0px;
+    color: #585858;
+    font-size: 14px;
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+      
+}
+
+.info:hover{
+    color: black;
+
+}
+
+.summary{
+    float: left;
+    width: 200px;
+    font-family: Segoe UI Light;
+    text-align: left;
+    padding-left: 15px;
+    padding-top: 10px;
+    height: 280px;    
+    color: white;    
+}
+
+.summary:hover{
+    color: black;
+    background-color:#F2F2F2;
+}
+
+#tableStyle tr:hover{
+    background-color:#F2F2F2;
+    color:Black;
+}

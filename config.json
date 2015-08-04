@@ -1,0 +1,25 @@
+{
+    "paths": {
+        "libDir": "lib",
+        "suiteDir": "suites",
+        "testSetDir": "TestSet",
+        "testDataDir": "TestData",
+        "suiteFileName": "SuiteExecutor.xlsx"
+    },
+    "drivers": {
+        "chromeDriverExe": "chromedriver.exe",
+        "openFinDriverExe": "chromedriverOF.exe",
+        "ieDriverExe": "IEDriverServer.exe",
+        "phantomJsExe": "phantomjs.exe",
+        "openFinDriverExe": "chromeDriverOF.exe"
+    },
+    "general": {
+        "sanityPackageName": "com.sape.sanity",
+        "regressionPackageName": "com.sape.regression",
+        "implicitWaitInSeconds": "15",
+        "pageLoadTimeoutInSeconds": "300",
+        "cassandraReadTimeoutInSeconds": "30",
+        "appLoadTimeoutInSeconds": "180",
+        "maximizeWindow": "true"
+    }
+}

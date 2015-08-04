@@ -1,0 +1,95 @@
+package com.sape.base;
+
+import org.apache.log4j.Logger;
+import org.openqa.selenium.WebDriver;
+import org.testng.ITestContext;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
+
+
+
+import com.sape.common.Config;
+import com.sape.common.Constants;
+import com.sape.common.TestReporter;
+import com.sape.common.Utilities;
+import com.sape.common.WebDriverSetup;
+import com.sape.exceptions.AutomationFrameworkException;
+
+import reporting.testng.reports.listeners.*;
+
+@Listeners({ ReportsListener.class, ConfigurationListener.class, MethodListener.class })
+public abstract class BaseTests {
+    static {
+        // set path for reporting properties file
+        System.setProperty("reporter.config", Constants.BASE_DIR + Constants.REPORTING_PROP_FILE_NAME);
+
+    }
+
+    protected WebDriver driver;
+    protected Utilities utils;
+    protected TestReporter reporter;
+    private static final Logger LOG = Logger.getLogger(BaseTests.class);
+
+    @BeforeSuite
+    public void suiteSetup(ITestContext ctx) {
+
+    }
+
+    @BeforeTest
+    public void testSetup(ITestContext ctx) {
+        Utilities.killTaskOnWindows(Config.Drivers.IE_DRIVER_EXE);
+        Utilities.killTaskOnWindows(Config.Drivers.CHROME_DRIVER_EXE);
+        Utilities.sync(5);
+    }
+
+    @BeforeClass
+    public void classSetup(ITestContext ctx) {
+        // Initialize web driver
+        this.driver = new WebDriverSetup(Config.General.IMPLICIT_WAIT_IN_SECONDS).initDriver();
+        if (this.driver == null) {
+            throw new AutomationFrameworkException("unable to fetch browser for: " + Config.Execution.getBrowser());
+        }
+
+        // initialize reporter and utilities class
+        utils = new Utilities(this.driver, Config.General.IMPLICIT_WAIT_IN_SECONDS);
+        reporter=new TestReporter(driver);
+    }
+
+    @AfterClass(alwaysRun = true)
+    public void classTeardown() {
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } catch (Exception e) {
+            LOG.warn(e);
+        }
+    }
+
+    @AfterTest(alwaysRun = true)
+    public void testTeardown() {
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } catch (Exception e) {
+            LOG.warn(e);
+        }
+    }
+
+    @AfterSuite(alwaysRun = true)
+    public void suiteTeardown() {
+        try {
+            if (driver != null) {
+                driver.quit();
+            }
+        } catch (Exception e) {
+            LOG.warn(e);
+        }
+    }
+}

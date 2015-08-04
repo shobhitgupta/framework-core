@@ -1,0 +1,7 @@
+bin/
+reports/
+test-output/
+logs/
+WEB-INF/
+aut-info.properties
+src/test/resources/appJson/*.json
