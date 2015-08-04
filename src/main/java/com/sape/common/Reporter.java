@@ -7,98 +7,93 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import com.sape.exceptions.AutomationFrameworkException;
+
 import reporting.testng.reports.ReportingUtilities;
 import reporting.testng.reports.logging.LogAs;
 import reporting.testng.selenium.reports.CaptureScreen;
 import reporting.testng.selenium.reports.CaptureScreen.ScreenshotOf;
 
 
-import com.sape.exceptions.AutomationFrameworkException;
+
 
 public class Reporter {
     private static final Logger LOG = Logger.getLogger(Reporter.class);
-  
-    public Reporter() {
-
+    private WebDriver driver;
+    public Reporter(WebDriver driver) {
+    	this.driver=driver;
     }
     
-    public static void setDescription(String description) {
+    public  void setDescription(String description) {
         reporting.testng.reports.ReportingUtilities.setTestCaseReqCoverage(description);
     }
 
-    public static void pass(String desc, String data, String exp, String act, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.PASSED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public  void pass(String desc, String data, String exp, String act) {
+        report(desc, data, exp, act, LogAs.PASSED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void pass(String data, String exp, String act, WebDriver driver) {
-        pass("", data, exp, act, driver);
+    public void pass(String data, String exp, String act) {
+        pass("", data, exp, act);
     }
 
-    public static void fail(String desc, String data, String exp, String act, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public  void fail(String desc, String data, String exp, String act) {
+        report(desc, data, exp, act, LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void fail(String data, String exp, String act, WebDriver driver) {
-        new Reporter().report("", data, exp, act, LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public  void fail(String data, String exp, String act) {
+        report("", data, exp, act, LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void pass(String desc, String data, String exp, String act, WebElement element, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.PASSED, new CaptureScreen(element), driver);
+    public void pass(String desc, String data, String exp, String act, WebElement element) {
+        report(desc, data, exp, act, LogAs.PASSED, new CaptureScreen(element));
     }
 
-    public static void fail(String desc, String data, String exp, String act, WebElement element, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.FAILED, new CaptureScreen(element), driver);
+    public void fail(String desc, String data, String exp, String act, WebElement element) {
+        report(desc, data, exp, act, LogAs.FAILED, new CaptureScreen(element));
     }
 
-    public static void fatal(String desc, String data, String exp, String act, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public void fatal(String desc, String data, String exp, String act) {
+        report(desc, data, exp, act, LogAs.FAILED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
         throw new AutomationFrameworkException(desc + " | " + data + " | " + exp + " | " + act);
     }
 
-    public static void fatal(String desc, String data, String exp, String act) {
-        new Reporter().report(desc, data, exp, act, LogAs.FAILED, null, null);
-        throw new AutomationFrameworkException(desc + " | " + data + " | " + exp + " | " + act);
+
+    public void fatal(String data, String exp, String act) {
+        fatal("", data, exp, act);
     }
 
-    public static void fatal(String data, String exp, String act, WebDriver driver) {
-        fatal("", data, exp, act, driver);
+   
+
+    public void fatal(String data) {
+        fatal("", data, "", "");
     }
 
-    public static void fatal(String data, WebDriver driver) {
-        fatal("", data, "", "", driver);
+    public void warning(String desc, String data, String exp, String act, WebDriver driver) {
+        report(desc, data, exp, act, LogAs.WARNING, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void fatal(String data) {
-        fatal("", data, "", "", null);
+    public void warning(String data, String exp, String act, WebDriver driver) {
+        report("", data, exp, act, LogAs.WARNING, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void warning(String desc, String data, String exp, String act, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.WARNING, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public void warning(String data) {
+        report("", data, "", "", LogAs.WARNING, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void warning(String data, String exp, String act, WebDriver driver) {
-        new Reporter().report("", data, exp, act, LogAs.WARNING, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public void info(String desc, String data, String exp, String act) {
+        report(desc, data, exp, act, LogAs.INFO, null);
     }
 
-    public static void warning(String data, WebDriver driver) {
-        new Reporter().report("", data, "", "", LogAs.WARNING, new CaptureScreen(ScreenshotOf.BROWSER_PAGE), driver);
+    public void info(String data) {
+        info("", data, "", "");
     }
 
-    public static void info(String desc, String data, String exp, String act, WebDriver driver) {
-        new Reporter().report(desc, data, exp, act, LogAs.INFO, null, driver);
+    public  void pass() {
+        report("", "", "Should be successful", "Is successful", LogAs.PASSED, new CaptureScreen(
+                ScreenshotOf.BROWSER_PAGE));
     }
 
-    public static void info(String data, WebDriver driver) {
-        info("", data, "", "", driver);
-    }
-
-    public static void pass(WebDriver driver) {
-        new Reporter().report("", "", "Should be successful", "Is successful", LogAs.PASSED, new CaptureScreen(
-                ScreenshotOf.BROWSER_PAGE), driver);
-    }
-
-    private void report(String desc, String data, String exp, String act, LogAs logAs, CaptureScreen captureScreen,
-            WebDriver driver) {
+    private void report(String desc, String data, String exp, String act, LogAs logAs, CaptureScreen captureScreen) {
         String stackTraceInfo = getCallingFileNameAndLineNumber() + " - " + getCallingMethodName();
         String descLocal = (desc == null || desc.isEmpty()) ? stackTraceInfo : desc;
         String dataLocal = data;
@@ -148,67 +143,67 @@ public class Reporter {
         return null;
     }
 
-    public static boolean asrt(String desc, String data, String exp, String act, WebDriver driver) {
+    public boolean asrt(String desc, String data, String exp, String act, WebDriver driver) {
         if (exp == null || act == null) {
             return false;
         }
         if (exp.equals(act)) {
-            info(desc, data, exp, act, driver);
+            info(desc, data, exp, act);
             return true;
         } else {
-            fail(desc, data, exp, act, driver);
+            fail(desc, data, exp, act);
             return false;
         }
     }
 
-    public static boolean vrfy(String desc, String data, String exp, String act, WebDriver driver) {
+    public boolean vrfy(String desc, String data, String exp, String act) {
         if (exp == null || act == null) {
             throw new AutomationFrameworkException(desc + " | " + data + " | " + exp + " | " + act);
         }
         if (exp.equals(act)) {
-            info(desc, data, exp, act, driver);
+            info(desc, data, exp, act);
             return true;
         } else {
-            fatal(desc, data, exp, act, driver);
+            fatal(desc, data, exp, act);
             return false;
         }
     }
 
-    public static boolean vrfy(String desc, String data, boolean exp, boolean act, WebDriver driver) {
-        return vrfy(desc, data, "" + exp, "" + act, driver);
+    public  boolean vrfy(String desc, String data, boolean exp, boolean act) {
+        return vrfy(desc, data, "" + exp, "" + act);
     }
 
-    public static boolean vrfy(String data, String exp, String act, WebDriver driver) {
+    public boolean vrfy(String data, String exp, String act) {
         if (exp == null || act == null) {
             throw new AutomationFrameworkException("" + " | " + data + " | " + exp + " | " + act);
         }
         if (exp.equals(act)) {
-            info("", data, exp, act, driver);
+            info("", data, exp, act);
             return true;
         } else {
-            fatal("", data, exp, act, driver);
+            fatal("", data, exp, act);
             return false;
         }
     }
 
-    public static boolean vrfy(String data, boolean exp, boolean act, WebDriver driver) {
-        return vrfy("", data, "" + exp, "" + act, driver);
+    public boolean vrfy(String data, boolean exp, boolean act) {
+        return vrfy("", data, "" + exp, "" + act);
     }
 
-    public static boolean vrfy(String data, int exp, int act, WebDriver driver) {
-        return vrfy("", data, "" + exp, "" + act, driver);
+    public  boolean vrfy(String data, int exp, int act) {
+        return vrfy("", data, "" + exp, "" + act);
     }
 
-    public static boolean vrfy(String data, float exp, float act, WebDriver driver) {
-        return vrfy("", data, "" + exp, "" + act, driver);
+    public boolean vrfy(String data, float exp, float act) {
+        return vrfy("", data, "" + exp, "" + act);
     }
 
-    public static boolean vrfy(String data, Double exp, Double act, WebDriver driver) {
-        return vrfy("", data, "" + exp, "" + act, driver);
+    public boolean vrfy(String data, Double exp, Double act, WebDriver driver) {
+        return vrfy("", data, "" + exp, "" + act);
     }
 
-    public static boolean vrfy(String data, List<String> exp, List<String> act, WebDriver driver) {
-        return vrfy("", data + " " + exp + " vs " + act, "" + true, "" + CollectionUtils.disjunction(exp, act).isEmpty(), driver);
+    public boolean vrfy(String data, List<String> exp, List<String> act, WebDriver driver) {
+        return vrfy("", data + " " + exp + " vs " + act, "" + true, "" + CollectionUtils.disjunction(exp, act).isEmpty());
 
     }
 }
