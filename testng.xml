@@ -6,15 +6,16 @@
 		<listener class-name="com.reporting.listeners.ConfigurationListener" />
 		<listener class-name="com.reporting.listeners.MethodListener" />
 	</listeners>
-	<test name="Sanity1">
+	<test name="OnChrome">
 		<parameter name="browser" value="CH" />
 		<classes>
-			<class name="com.sape.sanity.Test1" />
+			<class name="com.sape.sanity.Test2" />
 		</classes>
 	</test>
-	<test name="Sanity2">
+	<test name="OnFirefox">
 		<parameter name="browser" value="FF" />
 		<classes>
+			<class name="com.sape.sanity.Test1" />
 			<class name="com.sape.sanity.Test2" />
 		</classes>
 	</test>
