@@ -9,11 +9,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Listeners;
-
-import reporting.testng.reports.listeners.ConfigurationListener;
-import reporting.testng.reports.listeners.MethodListener;
-import reporting.testng.reports.listeners.ReportsListener;
 
 import com.sape.common.Config;
 import com.sape.common.Constants;
@@ -23,7 +18,7 @@ import com.sape.common.WebDriverSetup;
 import com.sape.enums.Browsers;
 import com.sape.exceptions.AutomationFrameworkException;
 
-@Listeners({ ReportsListener.class, ConfigurationListener.class, MethodListener.class })
+//@Listeners({ ReportsListener.class, ConfigurationListener.class, MethodListener.class })
 public abstract class BaseTests {
 	static {
 		// set path for reporting properties file
@@ -38,14 +33,14 @@ public abstract class BaseTests {
 
 	@BeforeSuite
 	public void suiteSetup(ITestContext ctx) {
-
+		Utilities.killTaskOnWindows(Config.Drivers.IE_DRIVER_EXE);
+		Utilities.killTaskOnWindows(Config.Drivers.CHROME_DRIVER_EXE);
+		Utilities.sync(5);
 	}
 
 	@BeforeTest
 	public void testSetup(ITestContext ctx) {
-		Utilities.killTaskOnWindows(Config.Drivers.IE_DRIVER_EXE);
-		Utilities.killTaskOnWindows(Config.Drivers.CHROME_DRIVER_EXE);
-		Utilities.sync(5);
+
 	}
 
 	@BeforeClass

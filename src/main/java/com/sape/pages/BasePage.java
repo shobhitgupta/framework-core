@@ -6,7 +6,11 @@ import com.sape.common.Config;
 import com.sape.common.Utilities;
 
 public abstract class BasePage {
-    protected WebDriver driver;
-    protected Utilities utils;
-    protected static final long IMPLICIT_WAIT_IN_SECONDS = Config.General.IMPLICIT_WAIT_IN_SECONDS;
+	protected WebDriver driver;
+	protected Utilities utils;
+	protected static final long IMPLICIT_WAIT_IN_SECONDS = Config.General.IMPLICIT_WAIT_IN_SECONDS;
+
+	public BasePage() {
+		utils = new Utilities(driver, 10);
+	}
 }

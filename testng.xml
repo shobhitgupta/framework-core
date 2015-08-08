@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="TestAutomationSuite">   
+<suite name="TestAutomationSuite" parallel="tests" thread-count="5"> 
+	<listeners>
+		<listener class-name="reporting.testng.reports.listeners.ReportsListener"/>
+	    <listener class-name="reporting.testng.reports.listeners.ConfigurationListener"/>
+	    <listener class-name="reporting.testng.reports.listeners.MethodListener"/>
+	</listeners>  
    <test name="Sanity1" >
       <parameter name="browser"  value="CH"/>
       <classes>
          <class name="com.sape.sanity.Test1"></class>
       </classes>
    </test>
-   <test name="Sanity2" parallel="classes" >
+   <test name="Sanity2" >
       <parameter name="browser"  value="FF"/>
       <classes>
          <class name="com.sape.sanity.Test2"></class>
-       </classes>
+      </classes>
    </test>
 </suite>

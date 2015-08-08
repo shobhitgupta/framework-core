@@ -41,9 +41,10 @@
 			<version>1.4.01</version>
 		</dependency>
 		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>18.0</version>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>6.9.6</version>
 		</dependency>
+
 	</dependencies>
 </project>
