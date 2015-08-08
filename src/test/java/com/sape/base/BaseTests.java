@@ -20,6 +20,7 @@ import com.sape.common.Constants;
 import com.sape.common.Reporter;
 import com.sape.common.Utilities;
 import com.sape.common.WebDriverSetup;
+import com.sape.enums.Browsers;
 import com.sape.exceptions.AutomationFrameworkException;
 
 @Listeners({ ReportsListener.class, ConfigurationListener.class, MethodListener.class })
@@ -50,7 +51,8 @@ public abstract class BaseTests {
 	@BeforeClass
 	public void classSetup(ITestContext ctx) {
 		// Initialize web driver
-		this.driver = new WebDriverSetup(Config.General.IMPLICIT_WAIT_IN_SECONDS).initDriver();
+		String browserName = ctx.getCurrentXmlTest().getParameter("browser");
+		this.driver = new WebDriverSetup().getWebDriver(Browsers.fromString(browserName));
 		if (this.driver == null) {
 			throw new AutomationFrameworkException("unable to fetch browser for: " + Config.Execution.getBrowser());
 		}

@@ -4,7 +4,7 @@ reports/
 test-output/
 logs/
 WEB-INF/
+.project
 .gradle
 .settings
 .classpath
-.project

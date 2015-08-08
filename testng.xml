@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="FrostDB" junit="false" parallel="false" configfailurepolicy="skip" thread-count="5" skipfailedinvocationcounts="false" data-provider-thread-count="10" group-by-instances="false" preserve-order="true" allow-return-values="false">
-   
-   <test name="Sanity" parallel="classes" thread-count="10" junit="false" skipfailedinvocationcounts="false" preserve-order="true" group-by-instances="false" allow-return-values="false">
+<suite name="TestAutomationSuite">   
+   <test name="Sanity1" >
+      <parameter name="browser"  value="CH"/>
       <classes>
          <class name="com.sape.sanity.Test1"></class>
+      </classes>
+   </test>
+   <test name="Sanity2" parallel="classes" >
+      <parameter name="browser"  value="FF"/>
+      <classes>
          <class name="com.sape.sanity.Test2"></class>
        </classes>
    </test>
