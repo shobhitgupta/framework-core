@@ -12,15 +12,14 @@ public class Test1 extends BaseTests {
 	@Test
 	public void Method1() {
 		driver.get("http://www.google.com");
-		pc = new PageClass1(driver);
-		pc.method1();
-		Utilities.sync(10);
+		Utilities.sync(2);
 		reporter.fail();
 	}
 
 	@Test
 	public void Method2() {
 		driver.get("http://www.seleniumhq.org");
+		Utilities.sync(2);
 		reporter.pass();
 	}
 }

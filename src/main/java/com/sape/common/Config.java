@@ -21,7 +21,7 @@ public class Config {
         public static final String LOGS_DIR_PATH = Constants.BASE_DIR + LOGS_DIR;
         public static final String REPORTS_DIR = "reports";
         public static final String REPORTS_DIR_PATH = Constants.BASE_DIR + REPORTS_DIR;
-        public static final String REPORTS_PROPERTIES_FILE_PATH = Constants.BASE_DIR + "reporting.properties";
+        public static final String REPORTS_PROPERTIES_FILE_PATH = Constants.BASE_DIR + "com.reporting1.properties";
         public static final String LIB_DIR = PATHS.get("libDir");
         public static final String SUITE_DIR = PATHS.get("suiteDir");
         public static final String TESTNG_XML_NAME = PATHS.get("testngXmlName");

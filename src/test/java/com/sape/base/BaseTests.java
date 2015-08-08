@@ -21,7 +21,7 @@ import com.sape.exceptions.AutomationFrameworkException;
 //@Listeners({ ReportsListener.class, ConfigurationListener.class, MethodListener.class })
 public abstract class BaseTests {
 	static {
-		// set path for reporting properties file
+		// set path for com.reporting1 properties file
 		System.setProperty("reporter.config", Constants.BASE_DIR + Constants.REPORTING_PROP_FILE_NAME);
 
 	}

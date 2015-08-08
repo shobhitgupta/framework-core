@@ -37,9 +37,9 @@ public class PropertiesFileUtils {
             br.close();
             bw.close();
         } catch (FileNotFoundException e) {
-            throw new AutomationFrameworkException("reporting properties file not found", e);
+            throw new AutomationFrameworkException("com.reporting1 properties file not found", e);
         } catch (IOException e) {
-            throw new AutomationFrameworkException("problem reading reporting properties file", e);
+            throw new AutomationFrameworkException("problem reading com.reporting1 properties file", e);
         }
         return;
 

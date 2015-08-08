@@ -7,11 +7,10 @@ import org.apache.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import reporting.testng.reports.ReportingUtilities;
-import reporting.testng.reports.logging.LogAs;
-import reporting.testng.selenium.reports.CaptureScreen;
-import reporting.testng.selenium.reports.CaptureScreen.ScreenshotOf;
-
+import com.reporting.CaptureScreen;
+import com.reporting.ReportingUtilities;
+import com.reporting.CaptureScreen.ScreenshotOf;
+import com.reporting.logging.LogAs;
 import com.sape.exceptions.AutomationFrameworkException;
 
 public class Reporter {
@@ -23,11 +22,12 @@ public class Reporter {
 	}
 
 	public void setDescription(String description) {
-		reporting.testng.reports.ReportingUtilities.setTestCaseReqCoverage(description);
+		ReportingUtilities.setTestCaseReqCoverage(description);
 	}
 
 	public void pass(String desc, String data, String exp, String act) {
-		report(desc, data, exp, act, LogAs.PASSED, new CaptureScreen(ScreenshotOf.BROWSER_PAGE));
+		report(desc, data, exp, act, com.reporting.logging.LogAs.PASSED,
+				new com.reporting.CaptureScreen(ScreenshotOf.BROWSER_PAGE));
 	}
 
 	public void pass(String data, String exp, String act) {

@@ -851,21 +851,4 @@ public class Utilities {
 		}
 		return null;
 	}
-
-	public void compareMaps(Map<String, List<String>> exp, Map<String, List<String>> act, String shortName) {
-		int i = 0;
-		for (String key : exp.keySet()) {
-			// Reporter.vrfy("List of columns in the maps of '" + shortName +
-			// "' should match for row : " + i++, exp.get(key),
-			// act.get(key), null);
-		}
-	}
-
-	public void compareMaps(Map<String, List<String>> exp, Map<String, List<String>> act) {
-		for (String key : exp.keySet()) {
-			// Reporter.vrfy("List of columns in the maps should match",
-			// exp.get(key), act.get(key), null);
-		}
-	}
-
 }

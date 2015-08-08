@@ -21,7 +21,6 @@ public class WebDriverSetup {
 	private static final Logger LOG = Logger.getLogger(WebDriverSetup.class);
 	private static final String LIB_DIR = Constants.BASE_DIR + Config.Paths.LIB_DIR + Constants.FS;
 	WebDriver driver;
-	private final static String INVALID_GRID_URL_TEXT = "invalid selenium grid url: ";
 
 	// public Properties loadConfigFile() {
 	// String propsFile = Constants.BASE_DIR + Constants.AUT_INFO_FILE_NAME;

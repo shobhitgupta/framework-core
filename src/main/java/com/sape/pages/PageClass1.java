@@ -7,10 +7,5 @@ public class PageClass1 extends BasePage {
 
 	public PageClass1(WebDriver driver) {
 		this.driver = driver;
-		// this.utils = new Utilities(driver, IMPLICIT_WAIT_IN_SECONDS);
-	}
-
-	public void method1() {
-
 	}
 }
