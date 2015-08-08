@@ -56,8 +56,8 @@ public abstract class BaseTests {
 		}
 
 		// initialize reporter and utilities class
-		utils = new Utilities(this.driver, Config.General.IMPLICIT_WAIT_IN_SECONDS);
 		reporter = new Reporter(driver);
+		utils = new Utilities(this.driver, Config.General.IMPLICIT_WAIT_IN_SECONDS);
 	}
 
 	@AfterClass(alwaysRun = true)

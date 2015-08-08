@@ -47,10 +47,9 @@ public class Utilities {
 	private static final Logger LOG = Logger.getLogger(Utilities.class);
 	private long implicitWaitInSeconds;
 
-	public Utilities(WebDriver driver, long implicitWaitInSeconds, Reporter reporter) {
+	public Utilities(WebDriver driver, long implicitWaitInSeconds) {
 		this.driver = driver;
 		this.implicitWaitInSeconds = implicitWaitInSeconds;
-		this.reporter = reporter;
 	}
 
 	public static String getTimestamp() {
@@ -215,9 +214,9 @@ public class Utilities {
 	 *
 	 */
 	public boolean verifyListSorting(List<String> list, int startIndex) {
-		Reporter.vrfy("Start index " + startIndex + " should not be less than 1", true, startIndex >= 1);
-		Reporter.vrfy("Start index " + startIndex + " should be less than max available index in list " + list.size(), true,
-				startIndex < list.size(), null);
+		reporter.vrfy("Start index " + startIndex + " should not be less than 1", true, startIndex >= 1);
+		reporter.vrfy("Start index " + startIndex + " should be less than max available index in list " + list.size(), true,
+				startIndex < list.size());
 		for (int i = startIndex; i < list.size(); i++) {
 			if (list.get(i - 1).compareTo(list.get(i)) > 0) {
 				return false;
@@ -760,8 +759,6 @@ public class Utilities {
 			throw new AutomationFrameworkException("file not found: " + jsonFile, e);
 		}
 
-		reporter.vrfy(null, "Load file: " + jsonFile, true, !map.isEmpty(), null);
-
 		return map;
 	}
 
@@ -858,14 +855,16 @@ public class Utilities {
 	public void compareMaps(Map<String, List<String>> exp, Map<String, List<String>> act, String shortName) {
 		int i = 0;
 		for (String key : exp.keySet()) {
-			Reporter.vrfy("List of columns in the maps of '" + shortName + "' should match for row : " + i++, exp.get(key),
-					act.get(key), null);
+			// Reporter.vrfy("List of columns in the maps of '" + shortName +
+			// "' should match for row : " + i++, exp.get(key),
+			// act.get(key), null);
 		}
 	}
 
 	public void compareMaps(Map<String, List<String>> exp, Map<String, List<String>> act) {
 		for (String key : exp.keySet()) {
-			Reporter.vrfy("List of columns in the maps should match", exp.get(key), act.get(key), null);
+			// Reporter.vrfy("List of columns in the maps should match",
+			// exp.get(key), act.get(key), null);
 		}
 	}
 

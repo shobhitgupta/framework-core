@@ -10,6 +10,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.sape.common.Config;
+import com.sape.common.Reporter;
 import com.sape.common.Utilities;
 
 public class CommonPage extends BasePage {
@@ -17,7 +18,7 @@ public class CommonPage extends BasePage {
 	private static final Logger LOG = Logger.getLogger(CommonPage.class);
 	private static final long IMPLICIT_WAIT_IN_SECONDS = Config.General.IMPLICIT_WAIT_IN_SECONDS;
 
-	public CommonPage(WebDriver driver) {
+	public CommonPage(WebDriver driver, Reporter reporter) {
 		this.driver = driver;
 		this.utils = new Utilities(this.driver, IMPLICIT_WAIT_IN_SECONDS);
 	}
