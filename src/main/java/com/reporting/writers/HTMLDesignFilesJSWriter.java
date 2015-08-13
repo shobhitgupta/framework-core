@@ -45,6 +45,8 @@ public class HTMLDesignFilesJSWriter {
 		paramString1 = paramString1.substring(0, paramString1.lastIndexOf(';')).replace(';', ',').trim();
 		paramString2 = paramString2.substring(0, paramString2.lastIndexOf(';')).replace(';', ',').trim();
 		paramString3 = paramString3.substring(0, paramString3.lastIndexOf(';')).replace(';', ',').trim();
+		int max = getMax(getMax(paramString1) + "," + getMax(paramString2) + "," + getMax(paramString3));
+		int yAxisTickInterval = (int) Math.max(1, Math.pow(10, (String.valueOf(max).length() - 1)));
 		int i = 0;
 		if (paramInt > 10) {
 			i = paramInt - 10;
@@ -65,11 +67,11 @@ public class HTMLDesignFilesJSWriter {
 			}
 			localPrintWriter.print("];");
 			localPrintWriter.println(
-					"    $.jqplot('bar', [s1, s2, s3], {\n        animate: true,axesDefaults:{min:0,tickInterval: 1},        seriesColors: [\""
+					"    $.jqplot('bar', [s1, s2, s3], {\n        animate: true,axesDefaults:{min:0},        seriesColors: [\""
 							+ Colors.PASS.getColor() + "\", \"" + Colors.FAIL.getColor() + "\", \"" + Colors.SKIP.getColor()
 							+ "\"],\n" + "stackSeries: false,\n" + "seriesDefaults: {\n" + "renderer: $.jqplot.BarRenderer,\n"
 							+ "pointLabels: {show: true}\n"
-							+ ", rendererOptions: {barWidth: 12, barMargin: 25, fillToZero: true}\n" + "}\n" + ",\n"
+							+ ", rendererOptions: {barWidth: 25, barMargin: 25, fillToZero: true}\n" + "}\n" + ",\n"
 							+ "grid: {borderColor: '#ffffff', background: '#ffffff',\n"
 							+ "borderWidth: 0.5, // pixel width of border around grid.\n"
 							+ "shadow: false // draw a shadow for grid.\n" + "}\n" + ",\n" + "legend: {\n" + "show: true,\n"
@@ -77,8 +79,8 @@ public class HTMLDesignFilesJSWriter {
 							+ "', '" + ReportLabels.FAIL.getLabel() + "', '" + ReportLabels.SKIP.getLabel() + "']\n" + "},\n"
 							+ "axes: {\n" + "xaxis: {\n" + "renderer: $.jqplot.CategoryAxisRenderer,\n" + "ticks: ticks,\n"
 							+ "label: \"" + ReportLabels.X_AXIS.getLabel() + "\"\n" + "}\n" + ",\n" + "yaxis: {\n" + "label: \""
-							+ ReportLabels.Y_AXIS.getLabel() + "\",\n" + "tickOptions: {\n" + "formatString: \"%dtc\"\n" + "}\n"
-							+ "}\n" + "}\n" + "});\n" + "});");
+							+ ReportLabels.Y_AXIS.getLabel() + "\",\n" + "tickOptions: {\n" + "formatString: \"%dtc\"\n"
+							+ ",tickInterval: " + yAxisTickInterval + "\n" + "}\n" + "}\n" + "}\n" + "});\n" + "});");
 			localPrintWriter.close();
 		} catch (FileNotFoundException localFileNotFoundException) {
 			localFileNotFoundException.printStackTrace();
@@ -90,7 +92,7 @@ public class HTMLDesignFilesJSWriter {
 		paramString2 = paramString2.substring(0, paramString2.lastIndexOf(';')).replace(';', ',').trim();
 		paramString3 = paramString3.substring(0, paramString3.lastIndexOf(';')).replace(';', ',').trim();
 
-		int max = getMax(getMax(paramString1) + "," + getMax(paramString1) + "," + getMax(paramString1));
+		int max = getMax(getMax(paramString1) + "," + getMax(paramString2) + "," + getMax(paramString3));
 		int yAxisTickInterval = (int) Math.max(1, Math.pow(10, (String.valueOf(max).length() - 1)));
 
 		try {

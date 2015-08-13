@@ -185,7 +185,7 @@ padding:2px;
 }
 
 
-.chartStyle{
+#chartStyle{
     height: 290px;
     margin-top: 10px;
     width: 85%;
@@ -322,7 +322,8 @@ padding:2px;
     padding-left: 15px;
     padding-top: 10px;
     height: 280px;    
-    color: white;    
+    color: white; 
+margin-top: 10px;	
 }
 
 .summary:hover{
@@ -331,6 +332,6 @@ padding:2px;
 }
 
 #tableStyle tr:hover{
-    background-color:#F2F2F2;
-    color:Black;
+    /*background-color:#F2F2F2;
+    color:Black;*/
 }

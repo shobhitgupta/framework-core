@@ -111,19 +111,16 @@ public class CurrentRunPageWriter extends ReportsPage {
 		}
 
 		// filter
-		paramPrintWriter.println("<div style=\"float:left;  color: #585858; font-size: 14px;\"><b>Showing:\t</b>"
+		paramPrintWriter.println("<div style=\"float:left;  color: #585858; font-size: 14px;\"><b>Showing:&nbsp;</b>"
 				+ "<select id=\"tcFilter\" class=\"filter\">"
-				+ "\n\t\t\t\t\t\t<option class=\"filterOption\" value=\"all\">All Methods</option>\n\t\t\t\t\t\t"
-				+ "<option class=\"filterOption\" value=\"tests\">Test Methods</option>\n\t\t\t\t\t\t"
-				+ "<option class=\"filterOption\" value=\"pass\">Passed Test Cases</option>\n\t\t\t\t\t\t"
-				+ "<option class=\"filterOption\" value=\"fail\">Failed Test Cases</option>\n\t\t\t\t\t\t"
-				+ "<option class=\"filterOption\" value=\"skip\">Skipped Test Cases</option>\n\t\t\t\t\t\t"
-				+ "<option class=\"filterOption\" value=\"config\">Configuration Methods</option>\n\t\t\t\t\t" + "</select>"
-				+ "</div>");
+				+ "\n\t\t\t\t\t\t<option class=\"filterOption\" value=\"all\">All Tests</option>\n\t\t\t\t\t\t"
+				+ "<option class=\"filterOption\" value=\"pass\">Passed Tests</option>\n\t\t\t\t\t\t"
+				+ "<option class=\"filterOption\" value=\"fail\">Failed Tests</option>\n\t\t\t\t\t\t"
+				+ "<option class=\"filterOption\" value=\"skip\">Skipped Test</option>\n\t\t\t\t\t" + "</select>" + "</div>");
 
 		paramPrintWriter.println("<table id=\"tableStyle\" class=\"chartStyle\" style=\"height:50px; float: left\">\n"
-				+ "<tr>\n<th>Package Name</th>\n<th>Class Name</th>\n  "
-				+ "<th>Method Type</th>\n<th>Test Case Name</th>\n<th>Browser</th>\n<th>Iteration</th>"
+				+ "<tr>\n<th>Test Set Name</th>\n<th>Test Class Name</th>\n  "
+				+ "<th>Test Case Name</th>\n<th>Browser</th>\n<th>Iteration</th>"
 				+ "<th>Time</th>\n<th style=\"width: 7%\">Status</th>\n" + "</tr>\n");
 		writePassedData(paramPrintWriter, paramList1, paramInt);
 		writeFailedData(paramPrintWriter, paramList2, paramInt);
@@ -136,22 +133,20 @@ public class CurrentRunPageWriter extends ReportsPage {
 
 	private static void writePassedData(PrintWriter paramPrintWriter, List<ITestResult> paramList, int paramInt) {
 		String str = "pass";
-		Iterator localIterator = paramList.iterator();
+		Iterator<ITestResult> localIterator = paramList.iterator();
 		while (localIterator.hasNext()) {
 			ITestResult localITestResult = (ITestResult) localIterator.next();
 			if (!localITestResult.getMethod().isTest()) {
 				str = "config";
 			}
 			paramPrintWriter.print("<tr class=\"all " + str + "\">\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getPackageName(localITestResult) + "</a></td>\n"
+					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getTestSetName(localITestResult) + "</a></td>\n"
 					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getClassName(localITestResult)
 					+ "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-					+ getMethodType(localITestResult) + "</a></td>\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getTestCaseName(localITestResult) + "</a></td>\n"
-					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-					+ getBrowserName(localITestResult) + "</a></td>\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult) + "</a></td>\n"
-					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
+					+ getTestCaseName(localITestResult) + "</a></td>\n" + "<td><a href=\""
+					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getBrowserName(localITestResult) + "</a></td>\n"
+					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult)
+					+ "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
 					+ getExecutionTime(localITestResult) + "</a></td>\n"
 					+ "<td><img  style=\"border: none; width: 25px\" src=\"../../HTML_Design_Files/IMG/pass.png\"></td>\n"
 					+ "</tr>\n");
@@ -160,22 +155,20 @@ public class CurrentRunPageWriter extends ReportsPage {
 
 	private static void writeFailedData(PrintWriter paramPrintWriter, List<ITestResult> paramList, int paramInt) {
 		String str = "fail";
-		Iterator localIterator = paramList.iterator();
+		Iterator<ITestResult> localIterator = paramList.iterator();
 		while (localIterator.hasNext()) {
 			ITestResult localITestResult = (ITestResult) localIterator.next();
 			if (!localITestResult.getMethod().isTest()) {
 				str = "config";
 			}
 			paramPrintWriter.print("<tr class=\"all " + str + "\">\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getPackageName(localITestResult) + "</a></td>\n"
+					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getTestSetName(localITestResult) + "</a></td>\n"
 					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getClassName(localITestResult)
 					+ "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-					+ getMethodType(localITestResult) + "</a></td>\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getTestCaseName(localITestResult) + "</a></td>\n"
-					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-					+ getBrowserName(localITestResult) + "</a></td>\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult) + "</a></td>\n"
-					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
+					+ getTestCaseName(localITestResult) + "</a></td>\n" + "<td><a href=\""
+					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getBrowserName(localITestResult) + "</a></td>\n"
+					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult)
+					+ "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
 					+ getExecutionTime(localITestResult) + "</a></td>\n"
 					+ "<td><img  style=\"border: none;width: 25px\" src=\"../../HTML_Design_Files/IMG/fail.png\"></td>\n"
 					+ "</tr>\n");
@@ -184,22 +177,20 @@ public class CurrentRunPageWriter extends ReportsPage {
 
 	private static void writeSkippedData(PrintWriter paramPrintWriter, List<ITestResult> paramList, int paramInt) {
 		String str = "skip";
-		Iterator localIterator = paramList.iterator();
+		Iterator<ITestResult> localIterator = paramList.iterator();
 		while (localIterator.hasNext()) {
 			ITestResult localITestResult = (ITestResult) localIterator.next();
 			if (!localITestResult.getMethod().isTest()) {
 				str = "config";
 			}
 			paramPrintWriter.print("<tr class=\"all " + str + "\">\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getPackageName(localITestResult) + "</a></td>\n"
+					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getTestSetName(localITestResult) + "</a></td>\n"
 					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getClassName(localITestResult)
 					+ "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-					+ getMethodType(localITestResult) + "</a></td>\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getTestCaseName(localITestResult) + "</a></td>\n"
-					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-					+ getBrowserName(localITestResult) + "</a></td>\n" + "<td><a href=\""
-					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult) + "</a></td>\n"
-					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
+					+ getTestCaseName(localITestResult) + "</a></td>\n" + "<td><a href=\""
+					+ getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getBrowserName(localITestResult) + "</a></td>\n"
+					+ "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult)
+					+ "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
 					+ getExecutionTime(localITestResult) + "</a></td>\n"
 					+ "<td><img  style=\" border: none;width: 25px\" src=\"../../HTML_Design_Files/IMG/skip.png\"></td>\n"
 					+ "</tr>\n");
@@ -215,6 +206,10 @@ public class CurrentRunPageWriter extends ReportsPage {
 
 	public static String getPackageName(ITestResult paramITestResult) {
 		return paramITestResult.getTestClass().getRealClass().getPackage().getName();
+	}
+
+	public static String getTestSetName(ITestResult paramITestResult) {
+		return paramITestResult.getTestContext().getCurrentXmlTest().getName();
 	}
 
 	public static String getClassName(ITestResult paramITestResult) {
@@ -282,10 +277,15 @@ public class CurrentRunPageWriter extends ReportsPage {
 				"<!DOCTYPE html>\n\n<html>\n    <head>\n        <title>Current Run Reports</title>\n\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"../../HTML_Design_Files/CSS/design.css\" />\n        <link rel=\"stylesheet\" type=\"text/css\" href=\"../../HTML_Design_Files/CSS/jquery.jqplot.css\" />\n\n        <script type=\"text/javascript\" src=\"../../HTML_Design_Files/JS/jquery.min.js\"></script>\n        <script type=\"text/javascript\" src=\"../../HTML_Design_Files/JS/jquery.jqplot.min.js\"></script>\n        <!--[if lt IE 9]>\n        <script language=\"javascript\" type=\"text/javascript\" src=\"../../HTML_Design_Files/JS/excanvas.js\"></script>\n        <![endif]-->\n\n        <script language=\"javascript\" type=\"text/javascript\" src=\"../../HTML_Design_Files/JS/jqplot.pieRenderer.min.js\"></script>\n        <script type=\"text/javascript\" src=\"pieChart.js\"></script>\n");
 		paramPrintWriter.print(
 				"<script language=\"javascript\" type=\"text/javascript\">$(document).ready(function() { $(\".video\").hide();$(\"#showmenu\").show(); $('#showmenu').click(function(){ $('.video').toggle(\"slide\"); }); });</script><style>#showmenu{text-align:center; padding-top:350px;color: #585858; font-size: 14px;}#video{height: 550px;    margin-top: 5px;    width: 97%;    border-style: solid;    border-width: 1px;    border-color: #21ABCD;    /* Shadow for boxes */    -moz-box-shadow: 0 0 10px #CCCCCC;    -ms-box-shadow: 0 0 10px #CCCCCC;    -webkit-box-shadow: 0 0 10px #CCCCCC;    box-shadow: 0 0 10px #CCCCCC;    zoom: 1;    filter: progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=0),        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=90),        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=180),        progid:DXImageTransform.Microsoft.Shadow(Color=#cccccc, Strength=2, Direction=270);    background-color: white;}</style>");
+		paramPrintWriter.println("<script language=\"javascript\" type=\"text/javascript\">\n$(document).ready(function() {\r\n	"
+				+ "$('#tcFilter').on('change', function() {\r\n		"
+				+ "if ($(this).val() == 'pass') {\r\n\t\t\t$('.pass').show();\r\n\t\t\t$('.fail').hide();\r\n\t\t\t$('.skip').hide();\r\n\t\t\t}\r\n\t\t"
+				+ "if ($(this).val() == 'fail') {\r\n\t\t\t$('.pass').hide();\r\n\t\t\t$('.fail').show();\r\n\t\t\t$('.skip').hide();\r\n\t\t\t}\r\n\r\n\t\t"
+				+ "if ($(this).val() == 'skip') {\r\n\t\t\t$('.pass').hide();\r\n\t\t\t$('.fail').hide();\r\n\t\t\t$('.skip').show();\r\n\t\t\t}\r\n\t\t\r\n\t\t"
+				+ "if ($(this).val() == 'all') {\r\n\t\t\t$('.pass').show();\r\n\t\t\t$('.fail').show();\r\n\t\t\t$('.skip').show();\r\n\t\t\t}\r\n\t});\r\n});\t"
+				+ "   \n</script>");
 		paramPrintWriter.println(
-				"<script language=\"javascript\" type=\"text/javascript\">\n$(document).ready(function() {\n\t$('#tcFilter').on('change',function(){\n    if($(this).val()=='pass'){\n        $('.pass').show();\n\t\t$('.fail').hide();\n\t\t$('.skip').hide();\n\t\t$('.config').hide();\n    }\n\tif($(this).val()=='fail'){\n        $('.pass').hide();\n\t\t$('.fail').show();\n\t\t$('.skip').hide();\n\t\t$('.config').hide();\n    }\n\t\n\tif($(this).val()=='skip'){\n        $('.pass').hide();\n\t\t$('.fail').hide();\n\t\t$('.skip').show();\n\t\t$('.config').hide();\n    }\n\t\nif($(this).val()=='tests'){ $('.pass').show(); $('.fail').show(); $('.skip').show(); $('.config').hide(); }\tif($(this).val()=='config'){\n        $('.pass').hide();\n\t\t$('.fail').hide();\n\t\t$('.skip').hide();\n\t\t$('.config').show();\n    }\n\t\n\tif($(this).val()=='all'){\n        $('.pass').show();\n\t\t$('.fail').show();\n\t\t$('.skip').show();\n\t\t$('.config').show();\n    }\n  });\n});       \n</script>");
-		paramPrintWriter.println(
-				"</head>\n    <body>\n        <table id=\"mainTable\">\n <tr id=\"header\" >\n   <td id=\"logo\"><img src=\"../../HTML_Design_Files/IMG/"
+				"</head>\n	<body>\n		<table id=\"mainTable\">\n <tr id=\"header\" >\n   <td id=\"logo\"><img src=\"../../HTML_Design_Files/IMG/"
 						+ ReportLabels.LOGO_LEFT.getLabel() + "\" alt=\"Logo\" height=\"70\" width=\"140\" /> " + "<br/>"
 						+ ReportLabels.LOGO_LEFT_CAPTION.getLabel() + "" + "</td>\n" + "<td id=\"headertext\">\n" + ""
 						+ ReportLabels.HEADER_TEXT.getLabel() + "<div style=\"padding-right:20px;float:right\">"

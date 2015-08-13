@@ -25,12 +25,12 @@ import com.reporting.writers.IndexPageWriter;
 import com.reporting.writers.TestCaseReportsPageWriter;
 
 public class ReportsListener implements ITestListener, ISuiteListener {
-	private ReportingUtilities repUtils = new ReportingUtilities();
+	// private ReportingUtilities repUtils = new ReportingUtilities();
 	int runCount = 0;
 	ISuite iSuite;
-	List<ITestResult> passedTests = new ArrayList();
-	List<ITestResult> failedTests = new ArrayList();
-	List<ITestResult> skippedTests = new ArrayList();
+	List<ITestResult> passedTests = new ArrayList<ITestResult>();
+	List<ITestResult> failedTests = new ArrayList<ITestResult>();
+	List<ITestResult> skippedTests = new ArrayList<ITestResult>();
 
 	public void onFinish(ITestContext paramITestContext) {}
 
@@ -147,7 +147,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
 			 * this.recorder.start(); } catch (Throwable localThrowable) {} }
 			 */
 			Directory.mkDirs(Directory.RUNDir + Directory.SEP + paramISuite.getName());
-			Iterator localIterator = paramISuite.getXmlSuite().getTests().iterator();
+			Iterator<?> localIterator = paramISuite.getXmlSuite().getTests().iterator();
 			while (localIterator.hasNext()) {
 				XmlTest localXmlTest = (XmlTest) localIterator.next();
 				Directory.mkDirs(
@@ -163,7 +163,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
 		try {
 			localPrintWriter = new PrintWriter(Directory.REPORTSDir + Directory.SEP + "index.html");
 			IndexPageWriter.header(localPrintWriter);
-			IndexPageWriter.content(localPrintWriter, repUtils.indexPageDescription);
+			IndexPageWriter.content(localPrintWriter, ReportingUtilities.indexPageDescription);
 			IndexPageWriter.footer(localPrintWriter);
 			return;
 		} catch (FileNotFoundException localFileNotFoundException) {
@@ -252,7 +252,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
 
 	public void startReportingForFailed(List<ITestResult> paramList) {
 		PrintWriter localPrintWriter = null;
-		Iterator localIterator = paramList.iterator();
+		Iterator<ITestResult> localIterator = paramList.iterator();
 		// for (;;) {
 		while (localIterator.hasNext()) {
 			ITestResult localITestResult = (ITestResult) localIterator.next();
@@ -281,7 +281,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
 
 	public void startReportingForSkipped(List<ITestResult> paramList) {
 		PrintWriter localPrintWriter = null;
-		Iterator localIterator = paramList.iterator();
+		Iterator<ITestResult> localIterator = paramList.iterator();
 		// for (;;) {
 		while (localIterator.hasNext()) {
 			ITestResult localITestResult = (ITestResult) localIterator.next();
