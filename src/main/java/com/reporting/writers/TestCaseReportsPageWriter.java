@@ -395,26 +395,35 @@ public class TestCaseReportsPageWriter extends ReportsPage {
 		return str;
 	}
 
-	public static void menuLink(PrintWriter paramPrintWriter, ITestResult paramITestResult, int paramInt) {
-		getTestCaseHTMLPath(paramITestResult);
+	public static void menuLink(PrintWriter paramPrintWriter, ITestResult paramITestResult, int runNum) {
+		String relPath = getTestCaseHTMLPath(paramITestResult);
 		paramPrintWriter.println("\n<tr id=\"container\">\n<td id=\"menu\">\n<ul>\n");
-		paramPrintWriter.println("<li class=\"menuStyle\"><a href=\"../" + getTestCaseHTMLPath(paramITestResult)
-				+ "index.html\">Index</a></li>" + "<li style=\"padding-top: 4px;\"><a href=\""
-				+ getTestCaseHTMLPath(paramITestResult) + "ConsolidatedPage.html\">Consolidated Page</a></li>\n");
-		if (paramInt == 1) {
-			paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUNName + paramInt + Directory.SEP
-					+ "CurrentRun.html\">" + "Run " + paramInt + "</a></li>\n");
-		} else {
-			for (int i = 1; i <= paramInt; i++) {
-				if (i == paramInt) {
-					paramPrintWriter.println("\n<li style=\"padding-top: 4px;padding-bottom: 4px;\"><a href=\""
-							+ Directory.RUNName + i + Directory.SEP + "CurrentRun.html\">" + "Run " + i + "</a></li>\n");
-					break;
-				}
-				paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUNName + i + Directory.SEP
-						+ "CurrentRun.html\">" + "Run " + i + "</a></li>\n");
-			}
-		}
+		paramPrintWriter
+				.println("<li class=\"menuStyle\"><a href=\"" + relPath + "CurrentRun.html" + "\">Back To Summary</a></li>\n");
+		// paramPrintWriter.println("<li class=\"menuStyle\"><a href=\"../" +
+		// getTestCaseHTMLPath(paramITestResult)
+		// + "index.html\">Index</a></li>" + "<li style=\"padding-top: 4px;\"><a
+		// href=\""
+		// + getTestCaseHTMLPath(paramITestResult) +
+		// "ConsolidatedPage.html\">Consolidated Page</a></li>\n");
+		// if (runNum == 1) {
+		// paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" +
+		// Directory.RUN_PREFIX + runNum + Directory.SEP
+		// + "CurrentRun.html\">" + "Run " + runNum + "</a></li>\n");
+		// } else {
+		// for (int i = 1; i <= runNum; i++) {
+		// if (i == runNum) {
+		// paramPrintWriter.println("\n<li style=\"padding-top:
+		// 4px;padding-bottom: 4px;\"><a href=\""
+		// + Directory.RUN_PREFIX + i + Directory.SEP + "CurrentRun.html\">" +
+		// "Run " + i + "</a></li>\n");
+		// break;
+		// }
+		// paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" +
+		// Directory.RUN_PREFIX + i + Directory.SEP
+		// + "CurrentRun.html\">" + "Run " + i + "</a></li>\n");
+		// }
+		// }
 		paramPrintWriter.println("\n</ul>\n</td>\n\n");
 	}
 }

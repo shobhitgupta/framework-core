@@ -8,18 +8,21 @@ import com.reporting.utils.Directory;
 public class ConsolidatedReportsPageWriter extends ReportsPage {
 	public static void menuLink(PrintWriter paramPrintWriter, int paramInt) {
 		paramPrintWriter.println("\n<tr id=\"container\">\n<td id=\"menu\">\n<ul>\n");
-		paramPrintWriter.println("<li class=\"menuStyle\"><a href=\"../index.html\" >Index</a></li>\n");
+		paramPrintWriter.println("<li class=\"menuStyle\"><a href=\"" + Directory.RUN_PREFIX + paramInt + Directory.SEP
+				+ "CurrentRun.html" + "\" >Summary</a></li>\n");
+		paramPrintWriter.println("<li class=\"menuStyle\" style=\"background-color: gray;margin-left: 0px; margin-right: 0px;\">"
+				+ "<a style=\"color: white;\" href=\"ConsolidatedPage.html\" >Trends</a></li>\n");
 		if (paramInt == 1) {
-			paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUNName + paramInt + Directory.SEP
+			paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUN_PREFIX + paramInt + Directory.SEP
 					+ "CurrentRun.html\" >" + "Run " + paramInt + "</a></li>\n");
 		} else {
 			for (int i = 1; i <= paramInt; i++) {
 				if (i == paramInt) {
 					paramPrintWriter.println("\n<li style=\"padding-top: 4px;padding-bottom: 4px;\"><a href=\""
-							+ Directory.RUNName + i + Directory.SEP + "CurrentRun.html\" >" + "Run " + i + "</a></li>\n");
+							+ Directory.RUN_PREFIX + i + Directory.SEP + "CurrentRun.html\" >" + "Run " + i + "</a></li>\n");
 					break;
 				}
-				paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUNName + i + Directory.SEP
+				paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUN_PREFIX + i + Directory.SEP
 						+ "CurrentRun.html\" >" + "Run " + i + "</a></li>\n");
 			}
 		}

@@ -22,6 +22,6 @@ public class Test1 extends BaseTests {
 
 	@DataProvider
 	Object[][] dp() {
-		return new Object[][] { { 1 }, { 2 }, { 3 }, { 4 }, { 5 } };
+		return new Object[][] { { 1 }, { 2 }, { 3 } };
 	}
 }

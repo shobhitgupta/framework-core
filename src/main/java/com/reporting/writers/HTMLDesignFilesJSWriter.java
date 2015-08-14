@@ -24,7 +24,7 @@ public class HTMLDesignFilesJSWriter {
 	public static void pieChartJS(int paramInt1, int paramInt2, int paramInt3, int paramInt4) {
 		try {
 			PrintWriter localPrintWriter = new PrintWriter(
-					Directory.RESULTSDir + Directory.SEP + Directory.RUNName + paramInt4 + Directory.SEP + "pieChart.js");
+					Directory.RESULTSDir + Directory.SEP + Directory.RUN_PREFIX + paramInt4 + Directory.SEP + "pieChart.js");
 			localPrintWriter.println("$(document).ready(function() {\n    var data = [['" + ReportLabels.PASS.getLabel() + "', "
 					+ paramInt1 + "], ['" + ReportLabels.FAIL.getLabel() + "', " + paramInt2 + "], ['"
 					+ ReportLabels.SKIP.getLabel() + "', " + paramInt3 + "]];\n" + "jQuery.jqplot('chart', [data],\n"

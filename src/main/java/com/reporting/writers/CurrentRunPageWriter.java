@@ -19,22 +19,33 @@ public class CurrentRunPageWriter extends ReportsPage {
 
 	public static void menuLink(PrintWriter paramPrintWriter, int paramInt) {
 		paramPrintWriter.println("\n <tr id=\"container\">\n   <td id=\"menu\">\n       <ul> \n");
-		paramPrintWriter.println(
-				"<li class=\"menuStyle\"><a href=\"../../index.html\" >Index</a></li><li style=\"padding-top: 4px;\"><a href=\"../ConsolidatedPage.html\" >Consolidated Page</a></li>\n");
-		if (paramInt == 1) {
-			paramPrintWriter.println("\n <li class=\"menuStyle\"><a href=\"" + Directory.RUNName + paramInt + Directory.SEP
-					+ "CurrentRun.html\" >" + "Run " + paramInt + "</a></li>\n");
-		} else {
-			for (int i = 1; i <= paramInt; i++) {
-				if (i == paramInt) {
-					paramPrintWriter.println("\n <li style=\"padding-top: 4px;padding-bottom: 4px;\"><a href=\""
-							+ Directory.RUNName + i + Directory.SEP + "CurrentRun.html\" >" + "Run " + i + "</a></li>\n");
-					break;
-				}
-				paramPrintWriter.println("\n <li class=\"menuStyle\"><a href=\"" + Directory.RUNName + i + Directory.SEP
-						+ "CurrentRun.html\" >" + "Run " + i + "</a></li>\n");
-			}
-		}
+		// paramPrintWriter
+		// .println("<li class=\"menuStyle\"><a href=\"../../index.html\"
+		// >Index</a></li><li style=\"padding-top: 4px;\">"
+		// + "<a href=\"../ConsolidatedPage.html\" >Consolidated
+		// Page</a></li>\n");
+
+		paramPrintWriter.println("<li class=\"menuStyle\" style=\"background-color: gray;margin-left: 0px; margin-right: 0px;\">"
+				+ "<a href=\"CurrentRun.html\" style=\"color: white;\">Summary</a></li>");
+		paramPrintWriter.println("<li style=\"padding-top: 4px;\">" + "<a href=\"../ConsolidatedPage.html\" >Trends</a></li>\n");
+		// if (paramInt == 1) {
+		// paramPrintWriter.println("\n <li class=\"menuStyle\"><a href=\"" +
+		// Directory.RUN_PREFIX + paramInt + Directory.SEP
+		// + "CurrentRun.html\" >" + "Run " + paramInt + "</a></li>\n");
+		// } else {
+		// for (int i = 1; i <= paramInt; i++) {
+		// if (i == paramInt) {
+		// paramPrintWriter.println("\n <li style=\"padding-top:
+		// 4px;padding-bottom: 4px;\"><a href=\""
+		// + Directory.RUN_PREFIX + i + Directory.SEP + "CurrentRun.html\" >" +
+		// "Run " + i + "</a></li>\n");
+		// break;
+		// }
+		// paramPrintWriter.println("\n <li class=\"menuStyle\"><a href=\"" +
+		// Directory.RUN_PREFIX + i + Directory.SEP
+		// + "CurrentRun.html\" >" + "Run " + i + "</a></li>\n");
+		// }
+		// }
 		paramPrintWriter.println("\n       </ul>\n   </td>\n\n");
 	}
 
@@ -199,8 +210,8 @@ public class CurrentRunPageWriter extends ReportsPage {
 
 	public static String getTestCaseHTMLPath(ITestResult paramITestResult, int paramInt) {
 		String str1 = paramITestResult.getAttribute("reportDir").toString();
-		int i = (Directory.RUNName + paramInt).length();
-		String str2 = str1.substring(str1.indexOf(Directory.RUNName + paramInt) + (i + 1));
+		int i = (Directory.RUN_PREFIX + paramInt).length();
+		String str2 = str1.substring(str1.indexOf(Directory.RUN_PREFIX + paramInt) + (i + 1));
 		return str2 + Directory.SEP + getTestCaseName(paramITestResult) + ".html";
 	}
 

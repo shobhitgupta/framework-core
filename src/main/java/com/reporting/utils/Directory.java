@@ -18,11 +18,9 @@ import com.reporting.enums.ReportLabels;
 import com.reporting.exceptions.ReporterException;
 import com.reporting.writers.HTMLDesignFilesWriter;
 
-
-
 public class Directory {
 	private ReportingUtilities repUtils = new ReportingUtilities();
-	//public static final String ATU_VERSION = "5.1.1";
+	// public static final String ATU_VERSION = "5.1.1";
 	public static final String CURRENTDir = System.getProperty("user.dir");
 	public static final String SEP = System.getProperty("file.separator");
 	public static String reportsDirName = "reports";
@@ -36,8 +34,8 @@ public class Directory {
 	public static String IMGDir = HTMLDESIGNDir + SEP + IMGDIRName;
 	public static String JSDIRName = "JS";
 	public static String JSDir = HTMLDESIGNDir + SEP + JSDIRName;
-	public static String RUNName = "Run_";
-	public static String RUNDir = RESULTSDir + SEP + RUNName;
+	public static String RUN_PREFIX = "Run_";
+	public static String RUN_DIR = RESULTSDir + SEP + RUN_PREFIX;
 	public static String SETTINGSFile = RESULTSDir + SEP + "Settings.properties";
 	public static final char JS_SETTINGS_DELIM = ';';
 	public static final String REPO_DELIM = "##@##@##";
@@ -56,6 +54,7 @@ public class Directory {
 	public static boolean recordSuiteExecution = false;
 	public static boolean recordTestMethodExecution = false;
 	public static final String MAIN_RECORD_FILE_NAME = "ATU_CompleteSuiteRecording";
+	public static int MAX_RUNS_IN_HISTORY = 10;
 
 	public void init() throws ReporterException {
 		String propFileFullPath = getCustomProperties();
@@ -71,9 +70,10 @@ public class Directory {
 				String projectDescription = localProperties.getProperty("project.description").trim();
 				String str4 = localProperties.getProperty("report.takescreenshot").trim();
 				String str5 = localProperties.getProperty("report.configurationreports").trim();
-				String str6 = localProperties.getProperty("atu.reports.excel").trim();
+				String str6 = localProperties.getProperty("reports.excel").trim();
 				String str7 = localProperties.getProperty("reports.continueExecutionAfterStepFailed").trim();
-				String str8 = localProperties.getProperty("atu.reports.recordExecution").trim();
+				String str8 = localProperties.getProperty("reports.recordExecution").trim();
+				String str9 = localProperties.getProperty("reports.setMaxRuns");
 				try {
 					if ((str2 != null) && (str2.length() > 0)) {
 						ReportLabels.HEADER_TEXT.setLabel(str2);
@@ -81,27 +81,24 @@ public class Directory {
 					if ((str4 != null) && (str4.length() > 0)) {
 						try {
 							takeScreenshot = Boolean.parseBoolean(str4);
-						} catch (Exception localException1) {
-						}
+						} catch (Exception localException1) {}
 					}
 					if ((str5 != null) && (str5.length() > 0)) {
 						try {
 							generateConfigReports = Boolean.parseBoolean(str5);
-						} catch (Exception localException2) {
-						}
+						} catch (Exception localException2) {}
 					}
 					if ((str6 != null) && (str6.length() > 0)) {
 						try {
 							generateExcelReports = Boolean.parseBoolean(str6);
-						} catch (Exception localException3) {
-						}
+						} catch (Exception localException3) {}
 					}
 					if ((str7 != null) && (str7.length() > 0)) {
 						try {
 							continueExecutionAfterStepFailed = Boolean.parseBoolean(str7);
-						} catch (Exception localException4) {
-						}
+						} catch (Exception localException4) {}
 					}
+
 					if ((str8 != null) && (str8.length() > 0)) {
 						try {
 							RecordingFor localRecordingFor = RecordingFor.valueOf(str8.toUpperCase());
@@ -110,9 +107,17 @@ public class Directory {
 							} else if (localRecordingFor == RecordingFor.TESTMETHOD) {
 								recordTestMethodExecution = true;
 							}
-						} catch (Throwable localThrowable) {
+						} catch (Throwable localThrowable) {}
+					}
+
+					if (str9 != null && !str9.isEmpty()) {
+						try {
+							MAX_RUNS_IN_HISTORY = Integer.parseInt(str9);
+						} catch (Exception e) {
+							MAX_RUNS_IN_HISTORY = 10;
 						}
 					}
+
 					if ((projectDescription != null) && (projectDescription.length() > 0)) {
 						repUtils.indexPageDescription = projectDescription;
 					}
@@ -128,8 +133,8 @@ public class Directory {
 						IMGDir = HTMLDESIGNDir + SEP + IMGDIRName;
 						JSDIRName = "JS";
 						JSDir = HTMLDESIGNDir + SEP + JSDIRName;
-						RUNName = "Run_";
-						RUNDir = RESULTSDir + SEP + RUNName;
+						RUN_PREFIX = "Run_";
+						RUN_DIR = RESULTSDir + SEP + RUN_PREFIX;
 						SETTINGSFile = RESULTSDir + SEP + "Settings.properties";
 					}
 				} catch (Exception localException5) {
@@ -204,8 +209,7 @@ public class Directory {
 			}
 			localFileImageOutputStream.close();
 			return;
-		} catch (Exception localException2) {
-		} finally {
+		} catch (Exception localException2) {} finally {
 			try {
 				localFileImageInputStream.close();
 				localFileImageOutputStream.close();
