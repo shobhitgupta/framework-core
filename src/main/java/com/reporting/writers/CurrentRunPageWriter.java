@@ -123,8 +123,9 @@ public class CurrentRunPageWriter extends ReportsPage {
 
         // filter reset button
         // Button is created at runtime via the table filter library
-        paramPrintWriter.println(
-                "<div id=\"resetBtnContainer\" class=\"info\" style=\"padding-top: 10px;text-align: left;\">\r\n<span class=\"info\">Note: Press Enter to filter results.</span>\r\n<br><br><br>\r\n</div>");
+        paramPrintWriter.println("<div id=\"resetBtnContainer\" class=\"info\" style=\"padding-top: 10px;text-align: left;\">"
+                + "\r\n<span class=\"info\">Use the filters above each column to filter and limit table data. Avanced searches can be performed by using the following operators: \r\n<, <=, >, >=, =, *, !, {, }, ||, &&, [empty], [nonempty], rgx:\r\nThese operators are described here:\r\n<br><a href=\"http://tablefilter.free.fr/#operators\">Operators : Usage Explained</a><br>"
+                + "\r\nNote: Press Enter to filter results.</span>\r\n<br><br><br>\r\n</div>");
 
         // filter (TODO : Using table filters. To be removed after successful
         // testing

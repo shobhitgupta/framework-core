@@ -10,7 +10,7 @@ import com.sape.common.Utilities;
 
 public class GoogleHomePage extends BasePage {
     // private static final Logger LOG = Logger.getLogger(PageClass1.class);
-    private By btnSignUp = By.id("gb_70");
+    private By btnSignIn = By.id("gb_70");
 
     public GoogleHomePage(WebDriver driver) {
         this.driver = driver;
@@ -28,9 +28,9 @@ public class GoogleHomePage extends BasePage {
         utils.sendKeys(searchBox, Keys.ENTER);
     }
 
-    public void clickSignUp() {
-        utils.click(btnSignUp);
-        
+    public GoogleLoginPage clickSignIn() {
+        utils.click(btnSignIn);
+        return new GoogleLoginPage(driver);
     }
 
 }
