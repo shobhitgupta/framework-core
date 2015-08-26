@@ -121,30 +121,43 @@ public class CurrentRunPageWriter extends ReportsPage {
                     + "<b>Video recording of execution turned off by user</b></p>");
         }
 
-        // filter
-        paramPrintWriter.println("<div style=\"float:left;  color: #585858; font-size: 14px;\"><b>Showing:&nbsp;</b>"
-                + "<select id=\"tcFilter\" class=\"filter\">"
-                + "\n\t\t\t\t\t\t<option class=\"filterOption\" value=\"all\">All Tests</option>\n\t\t\t\t\t\t"
-                + "<option class=\"filterOption\" value=\"pass\">Passed Tests</option>\n\t\t\t\t\t\t"
-                + "<option class=\"filterOption\" value=\"fail\">Failed Tests</option>\n\t\t\t\t\t\t"
-                + "<option class=\"filterOption\" value=\"skip\">Skipped Test</option>\n\t\t\t\t\t" + "</select>" + "</div>");
+        // filter reset button
+        // Button is created at runtime via the table filter library
+        paramPrintWriter.println(
+                "<div id=\"resetBtnContainer\" class=\"info\" style=\"padding-top: 10px;text-align: left;\">\r\n<span class=\"info\">Note: Press Enter to filter results.</span>\r\n<br><br><br>\r\n</div>");
+
+        // filter (TODO : Using table filters. To be removed after successful
+        // testing
+        // of table filters
+
+        // paramPrintWriter.println("<div style=\"float:left; color: #585858;
+        // font-size: 14px;\"><b>Showing:&nbsp;</b>"
+        // + "<select id=\"tcFilter\" class=\"filter\">"
+        // + "\n\t\t\t\t\t\t<option class=\"filterOption\" value=\"all\">All
+        // Tests</option>\n\t\t\t\t\t\t"
+        // + "<option class=\"filterOption\" value=\"pass\">Passed
+        // Tests</option>\n\t\t\t\t\t\t"
+        // + "<option class=\"filterOption\" value=\"fail\">Failed
+        // Tests</option>\n\t\t\t\t\t\t"
+        // + "<option class=\"filterOption\" value=\"skip\">Skipped
+        // Test</option>\n\t\t\t\t\t" + "</select>" + "</div>");
 
         // table
         paramPrintWriter.println("<table id=\"tableStyle\" class=\"chartStyle\" style=\"height:50px; float: left\">\n"
-                + "<tr>\n<th>Test Set Name</th>\n<th>Test Class Name</th>\n  "
+                + "<thead>\n<tr>\n<th>Test Set Name</th>\n<th>Test Class Name</th>\n  "
                 + "<th>Test Case Name</th>\n<th>Browser</th>\n<th>Iteration</th>"
-                + "<th>Time</th>\n<th style=\"width: 7%\">Status</th>\n" + "</tr>\n");
+                + "<th>Time</th>\n<th style=\"width: 7%\">Status</th>\n" + "</tr>\n</thead>\n<tbody>\n");
         writePassedData(paramPrintWriter, paramList1, paramInt);
         writeFailedData(paramPrintWriter, paramList2, paramInt);
         writeSkippedData(paramPrintWriter, paramList3, paramInt);
         writePassedData(paramPrintWriter, paramList4, paramInt);
         writeFailedData(paramPrintWriter, paramList5, paramInt);
         writeSkippedData(paramPrintWriter, paramList6, paramInt);
-        paramPrintWriter.print("</table>\n       </div>\n   </td>\n </tr>");
+        paramPrintWriter.print("</tbody>\n</table>\n       </div>\n   </td>\n </tr>");
 
         // filter script
         paramPrintWriter.println(
-                "<script language=\"javascript\" type=\"text/javascript\" src=\"../../HTML_Design_Files/JS/tablefilter.js\">\n</script>\n <script>\n  var tableStyleFilters = {\n\t\tbtn: true,\n\t\tbtn_reset: true,\n\t\tcol_3: \"select\",\n\t\tcol_6: \"none\",\n\t\tbtn_text: \"GO\",\n\t\talternate_rows: true,\n\t\tbtn_reset_text: \"Clear All Table Filters\"}\n\t\tsetFilterGrid(\"tableStyle\",0,tableStyleFilters);\n</script>\n");
+                "<script language=\"javascript\" type=\"text/javascript\" src=\"../../HTML_Design_Files/JS/tablefilter-all.min.js\">\r\n</script>\r\n <script>\r\n  var tableStyleFilters = {\r\n\t\tbtn_reset: true,\r\n\t\tbtn_reset_text:'Clear All Filters',\r\n\t\tbtn_reset_html: '<input type=\"button\" value=\"Click here to clear all filters\" class=\"button blue\"/>',\r\n\t\tbtn_reset_target_id:'resetBtnContainer',\r\n\t\tfilters_row_index: 1,\r\n\t\tcol_3: \"select\",\r\n\t\tcol_6: \"select\",\r\n\t\tdisplay_all_text: \"< Show all >\"}\r\n\t\tsetFilterGrid(\"tableStyle\",tableStyleFilters);\r\n</script>\r\n");
 
     }
 
@@ -164,8 +177,9 @@ public class CurrentRunPageWriter extends ReportsPage {
                     + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getBrowserName(localITestResult) + "</a></td>\n"
                     + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult)
                     + "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-                    + getExecutionTime(localITestResult) + "</a></td>\n"
-                    + "<td><img  style=\"border: none; width: 25px\" src=\"../../HTML_Design_Files/IMG/pass.png\"></td>\n"
+                    + getExecutionTime(localITestResult) + "</a></td>\n" + "<td>"
+                    + "\n<span style=\"display:none;\">Passed</span>\n"
+                    + "<img  style=\"border: none; width: 25px\" src=\"../../HTML_Design_Files/IMG/pass.png\"></td>\n"
                     + "</tr>\n");
         }
     }
@@ -186,8 +200,9 @@ public class CurrentRunPageWriter extends ReportsPage {
                     + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getBrowserName(localITestResult) + "</a></td>\n"
                     + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult)
                     + "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-                    + getExecutionTime(localITestResult) + "</a></td>\n"
-                    + "<td><img  style=\"border: none;width: 25px\" src=\"../../HTML_Design_Files/IMG/fail.png\"></td>\n"
+                    + getExecutionTime(localITestResult) + "</a></td>\n" + "<td>"
+                    + "\n<span style=\"display:none;\">Failed</span>\n"
+                    + "<img  style=\"border: none;width: 25px\" src=\"../../HTML_Design_Files/IMG/fail.png\"></td>\n"
                     + "</tr>\n");
         }
     }
@@ -208,8 +223,9 @@ public class CurrentRunPageWriter extends ReportsPage {
                     + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getBrowserName(localITestResult) + "</a></td>\n"
                     + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">" + getIteration(localITestResult)
                     + "</a></td>\n" + "<td><a href=\"" + getTestCaseHTMLPath(localITestResult, paramInt) + "\">"
-                    + getExecutionTime(localITestResult) + "</a></td>\n"
-                    + "<td><img  style=\" border: none;width: 25px\" src=\"../../HTML_Design_Files/IMG/skip.png\"></td>\n"
+                    + getExecutionTime(localITestResult) + "</a></td>\n" + "<td>"
+                    + "\n<span style=\"display:none;\">Skipped</span>\n"
+                    + "<img  style=\" border: none;width: 25px\" src=\"../../HTML_Design_Files/IMG/skip.png\"></td>\n"
                     + "</tr>\n");
         }
     }

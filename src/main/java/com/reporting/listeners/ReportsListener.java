@@ -112,7 +112,6 @@ public class ReportsListener implements ITestListener, ISuiteListener {
             SettingsFile.set("passedList", str1);
             SettingsFile.set("failedList", str2);
             SettingsFile.set("skippedList", str3);
-            HTMLDesignFilesJSWriter.tableFilterJS();
             HTMLDesignFilesJSWriter.lineChartJS(str1, str2, str3, this.runCount);
             HTMLDesignFilesJSWriter.barChartJS(str1, str2, str3, this.runCount);
             HTMLDesignFilesJSWriter.pieChartJS(this.passedTests.size(), this.failedTests.size(), this.skippedTests.size(),

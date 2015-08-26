@@ -8,10 +8,11 @@ import org.openqa.selenium.WebElement;
 import com.sape.common.Reporter;
 import com.sape.common.Utilities;
 
-public class Google extends BasePage {
+public class GoogleHomePage extends BasePage {
     // private static final Logger LOG = Logger.getLogger(PageClass1.class);
+    private By btnSignUp = By.id("gb_70");
 
-    public Google(WebDriver driver) {
+    public GoogleHomePage(WebDriver driver) {
         this.driver = driver;
         reporter = new Reporter(driver);
         utils = new Utilities(driver, 15);
@@ -25,6 +26,11 @@ public class Google extends BasePage {
         utils.sendKeys(searchBox, "Googling google");
         reporter.info("Data in textbox = " + searchBox.getAttribute("value"));
         utils.sendKeys(searchBox, Keys.ENTER);
+    }
+
+    public void clickSignUp() {
+        utils.click(btnSignUp);
+        
     }
 
 }
