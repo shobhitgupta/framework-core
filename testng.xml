@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="TestAutomationSuite" parallel="tests" thread-count="5">
+<suite name="TestAutomationSuite" parallel="tests" thread-count="10">
 	<listeners>
 		<listener class-name="com.reporting.listeners.ReportsListener" />
 		<listener class-name="com.reporting.listeners.ConfigurationListener" />
 		<listener class-name="com.reporting.listeners.MethodListener" />
 	</listeners>
-	<test name="OnChrome">
+	<test name="OnChrome" parallel="classes">
 		<parameter name="browser" value="CH" />
 		<classes>
-			<class name="com.sape.sanity.Test2" />
+			<class name="com.sape.sanity.Test1" />
+			<!-- <class name="com.sape.sanity.Test2" /> -->
 		</classes>
 	</test>
-	<test name="OnFirefox">
+	<test name="OnFirefox" parallel="classes">
 		<parameter name="browser" value="FF" />
 		<classes>
 			<class name="com.sape.sanity.Test1" />

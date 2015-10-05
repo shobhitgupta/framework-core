@@ -106,6 +106,11 @@ public class ReportingUtilities {
 				screenShotNumberLocal = takeWebElementScreenShot(driver, paramCaptureScreen.getElement());
 			}
 		}
+		Platform.prepareDetails(driver);
+		String browserInfo = Platform.BROWSER_NAME.toUpperCase() + " " + Platform.BROWSER_VERSION;
+		ITestResult currentTestResult = Reporter.getCurrentTestResult();
+		currentTestResult.setAttribute(Platform.BROWSER_NAME_PROP, browserInfo);
+
 		Steps localSteps = new Steps();
 		localSteps.setDescription(paramString1);
 		localSteps.setInputValue(paramString2);
@@ -115,7 +120,7 @@ public class ReportingUtilities {
 		localSteps.setLineNum(getLineNumDesc());
 		localSteps.setScreenShot(screenShotNumberLocal);
 		localSteps.setLogAs(paramLogAs);
-		stepFailureHandler(Reporter.getCurrentTestResult(), localSteps, paramLogAs);
+		stepFailureHandler(currentTestResult, localSteps, paramLogAs);
 	}
 
 	private static void buildReportData(Steps paramSteps) {

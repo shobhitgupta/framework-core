@@ -20,73 +20,73 @@ import com.sape.exceptions.AutomationFrameworkException;
 
 //@Listeners({ ReportsListener.class, ConfigurationListener.class, MethodListener.class })
 public abstract class BaseTests {
-    static {
-        // set path for com.reporting1 properties file
-        System.setProperty("reporter.config", Constants.BASE_DIR + Constants.REPORTING_PROP_FILE_NAME);
+	static {
+		// set path for com.reporting1 properties file
+		System.setProperty("reporter.config", Constants.BASE_DIR + Constants.REPORTING_PROP_FILE_NAME);
 
-    }
+	}
 
-    protected WebDriver driver;
-    protected Utilities utils;
-    protected Reporter reporter;
-    private static final Logger LOG = Logger.getLogger(BaseTests.class);
+	protected WebDriver driver;
+	protected Utilities utils;
+	protected Reporter reporter;
+	private static final Logger LOG = Logger.getLogger(BaseTests.class);
 
-    @BeforeSuite
-    public void suiteSetup(ITestContext ctx) {
-        Utilities.killTaskOnWindows(Config.Drivers.IE_DRIVER_EXE);
-        Utilities.killTaskOnWindows(Config.Drivers.CHROME_DRIVER_EXE);
-        Utilities.sync(5);
-    }
+	@BeforeSuite
+	public void suiteSetup(ITestContext ctx) {
+		// Utilities.killTaskOnWindows(Config.Drivers.IE_DRIVER_EXE);
+		// Utilities.killTaskOnWindows(Config.Drivers.CHROME_DRIVER_EXE);
+		// Utilities.sync(2);
+	}
 
-    @BeforeTest
-    public void testSetup(ITestContext ctx) {
+	@BeforeTest
+	public void testSetup(ITestContext ctx) {
 
-    }
+	}
 
-    @BeforeClass
-    public void classSetup(ITestContext ctx) {
-        // Initialize web driver
-        String browserName = ctx.getCurrentXmlTest().getParameter("browser");
-        this.driver = new WebDriverSetup().getWebDriver(Browsers.fromString(browserName));
-        if (this.driver == null) {
-            throw new AutomationFrameworkException("unable to fetch browser for: " + Config.Execution.getBrowser());
-        }
+	@BeforeClass
+	public void classSetup(ITestContext ctx) {
+		// Initialize web driver
+		String browserName = ctx.getCurrentXmlTest().getParameter("browser");
+		this.driver = new WebDriverSetup().getWebDriver(Browsers.fromString(browserName));
+		if (this.driver == null) {
+			throw new AutomationFrameworkException("unable to fetch browser for: " + Config.Execution.getBrowser());
+		}
 
-        // initialize reporter and utilities class
-        reporter = new Reporter(driver);
-        utils = new Utilities(this.driver, Config.General.IMPLICIT_WAIT_IN_SECONDS);
-    }
+		// initialize reporter and utilities class
+		reporter = new Reporter(driver);
+		utils = new Utilities(this.driver, Config.General.IMPLICIT_WAIT_IN_SECONDS);
+	}
 
-    @AfterClass(alwaysRun = true)
-    public void classTeardown() {
-        try {
-            if (driver != null) {
-                driver.quit();
-            }
-        } catch (Exception e) {
-            LOG.warn(e);
-        }
-    }
+	@AfterClass(alwaysRun = true)
+	public void classTeardown() {
+		try {
+			if (driver != null) {
+				driver.quit();
+			}
+		} catch (Exception e) {
+			LOG.warn(e);
+		}
+	}
 
-    @AfterTest(alwaysRun = true)
-    public void testTeardown() {
-        try {
-            if (driver != null) {
-                driver.quit();
-            }
-        } catch (Exception e) {
-            LOG.warn(e);
-        }
-    }
+	@AfterTest(alwaysRun = true)
+	public void testTeardown() {
+		try {
+			if (driver != null) {
+				driver.quit();
+			}
+		} catch (Exception e) {
+			LOG.warn(e);
+		}
+	}
 
-    @AfterSuite(alwaysRun = true)
-    public void suiteTeardown() {
-        try {
-            if (driver != null) {
-                driver.quit();
-            }
-        } catch (Exception e) {
-            LOG.warn(e);
-        }
-    }
+	@AfterSuite(alwaysRun = true)
+	public void suiteTeardown() {
+		try {
+			if (driver != null) {
+				driver.quit();
+			}
+		} catch (Exception e) {
+			LOG.warn(e);
+		}
+	}
 }

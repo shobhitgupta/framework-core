@@ -1,11 +1,16 @@
 package com.reporting.listeners;
 
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.testng.ISuite;
 import org.testng.ISuiteListener;
 import org.testng.ITestContext;
@@ -24,15 +29,13 @@ import com.reporting.writers.HTMLDesignFilesJSWriter;
 import com.reporting.writers.IndexPageWriter;
 import com.reporting.writers.TestCaseReportsPageWriter;
 
-
 public class ReportsListener implements ITestListener, ISuiteListener {
-    private ReportingUtilities repUtils = new ReportingUtilities();
+    // private ReportingUtilities repUtils = new ReportingUtilities();
     int runCount = 0;
     ISuite iSuite;
-    List<ITestResult> passedTests = new ArrayList();
-    List<ITestResult> failedTests = new ArrayList();
-    List<ITestResult> skippedTests = new ArrayList();
-   
+    List<ITestResult> passedTests = new ArrayList<ITestResult>();
+    List<ITestResult> failedTests = new ArrayList<ITestResult>();
+    List<ITestResult> skippedTests = new ArrayList<ITestResult>();
 
     public void onFinish(ITestContext paramITestContext) {}
 
@@ -93,7 +96,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
     public static String getReportDir(ITestResult paramITestResult) {
         String str1 = getRelativePathFromSuiteLevel(paramITestResult);
         paramITestResult.setAttribute("relativeReportDir", str1);
-        String str2 = Directory.RUNDir + Directory.SEP + str1;
+        String str2 = Directory.RUN_DIR + Directory.SEP + str1;
         paramITestResult.setAttribute("iteration", Integer.valueOf(paramITestResult.getMethod().getCurrentInvocationCount() + 1));
         paramITestResult.setAttribute("reportDir", str2);
 
@@ -113,23 +116,27 @@ public class ReportsListener implements ITestListener, ISuiteListener {
             HTMLDesignFilesJSWriter.barChartJS(str1, str2, str3, this.runCount);
             HTMLDesignFilesJSWriter.pieChartJS(this.passedTests.size(), this.failedTests.size(), this.skippedTests.size(),
                     this.runCount);
-            generateIndexPage();
+            // generateIndexPage();
             paramISuite.setAttribute("endExecution", Long.valueOf(System.currentTimeMillis()));
             long l = ((Long) paramISuite.getAttribute("startExecution")).longValue();
             generateConsolidatedPage();
             generateCurrentRunPage(l, System.currentTimeMillis());
+            // FileUtils.copyFile(new File(Directory.RUN_DIR + Directory.SEP +
+            // "CurrentRun.html"),
+            // new File(Directory.REPORTSDir + Directory.SEP + "Summary.html"));
             startReportingForPassed(this.passedTests);
             startReportingForFailed(this.failedTests);
             startReportingForSkipped(this.skippedTests);
-           
+
             if (Directory.generateConfigReports) {
                 ConfigurationListener.startConfigurationMethodsReporting(this.runCount);
             }
-           /* if (Directory.recordSuiteExecution) {
-                try {
-                    this.recorder.stop();
-                } catch (Throwable localThrowable) {}
-            }*/
+            /*
+             * if (Directory.recordSuiteExecution) { try { this.recorder.stop();
+             * } catch (Throwable localThrowable) {} }
+             */
+            createInternetShortcut(Directory.REPORTSDir + Directory.SEP + "SummaryReport.URL",
+                    Directory.RUN_DIR + Directory.SEP + "CurrentRun.html", "");
         } catch (Exception localException) {
             throw new IllegalStateException(localException);
         }
@@ -140,22 +147,42 @@ public class ReportsListener implements ITestListener, ISuiteListener {
             paramISuite.setAttribute("startExecution", Long.valueOf(System.currentTimeMillis()));
             new Directory().verifyRequiredFiles();
             SettingsFile.correctErrors();
-            this.runCount = (Integer.parseInt(SettingsFile.get("run").trim()) + 1);
+            int totalRuns = Integer.parseInt(SettingsFile.get("run").trim());
+
+            int maxRuns = Directory.MAX_RUNS_IN_HISTORY;
+            if (totalRuns >= maxRuns) {
+                int toBeDeleted = totalRuns - maxRuns + 1;
+                File[] fileNames = new File(Directory.RESULTSDir).listFiles();
+                for (File file : fileNames) {
+                    if (file.isDirectory() && file.getName().startsWith(Directory.RUN_PREFIX)) {
+                        int runNum = Integer.parseInt(file.getName().split(Directory.RUN_PREFIX)[1]);
+                        if (runNum <= toBeDeleted) {
+                            FileUtils.deleteDirectory(file);
+                        } else {
+                            file.renameTo(new File(
+                                    file.getParentFile() + Directory.SEP + Directory.RUN_PREFIX + (runNum - toBeDeleted)));
+                        }
+                    }
+                }
+                totalRuns = maxRuns - 1;
+            }
+
+            this.runCount = totalRuns + 1;
+
             SettingsFile.set("run", "" + this.runCount);
-            Directory.RUNDir += this.runCount;
-            Directory.mkDirs(Directory.RUNDir);
-          /*  if (Directory.recordSuiteExecution) {
-                try {
-                    this.recorder = new ATUTestRecorder(Directory.RUNDir, "ExecutionVideo.mov", false);
-                    this.recorder.start();
-                } catch (Throwable localThrowable) {}
-            }*/
-            Directory.mkDirs(Directory.RUNDir + Directory.SEP + paramISuite.getName());
-            Iterator localIterator = paramISuite.getXmlSuite().getTests().iterator();
+            Directory.RUN_DIR += this.runCount;
+            Directory.mkDirs(Directory.RUN_DIR);
+            /*
+             * if (Directory.recordSuiteExecution) { try { this.recorder = new
+             * ATUTestRecorder(Directory.RUN_DIR, "ExecutionVideo.mov", false);
+             * this.recorder.start(); } catch (Throwable localThrowable) {} }
+             */
+            Directory.mkDirs(Directory.RUN_DIR + Directory.SEP + paramISuite.getName());
+            Iterator<?> localIterator = paramISuite.getXmlSuite().getTests().iterator();
             while (localIterator.hasNext()) {
                 XmlTest localXmlTest = (XmlTest) localIterator.next();
-                Directory.mkDirs(Directory.RUNDir + Directory.SEP + paramISuite.getName() + Directory.SEP
-                        + localXmlTest.getName());
+                Directory.mkDirs(
+                        Directory.RUN_DIR + Directory.SEP + paramISuite.getName() + Directory.SEP + localXmlTest.getName());
             }
         } catch (Exception localException) {
             throw new IllegalStateException(localException);
@@ -167,7 +194,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
         try {
             localPrintWriter = new PrintWriter(Directory.REPORTSDir + Directory.SEP + "index.html");
             IndexPageWriter.header(localPrintWriter);
-            IndexPageWriter.content(localPrintWriter, repUtils.indexPageDescription);
+            IndexPageWriter.content(localPrintWriter, ReportingUtilities.indexPageDescription);
             IndexPageWriter.footer(localPrintWriter);
             return;
         } catch (FileNotFoundException localFileNotFoundException) {
@@ -184,7 +211,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
     public void generateCurrentRunPage(long paramLong1, long paramLong2) {
         PrintWriter localPrintWriter = null;
         try {
-            localPrintWriter = new PrintWriter(Directory.RUNDir + Directory.SEP + "CurrentRun.html");
+            localPrintWriter = new PrintWriter(Directory.RUN_DIR + Directory.SEP + "CurrentRun.html");
             CurrentRunPageWriter.header(localPrintWriter);
             CurrentRunPageWriter.menuLink(localPrintWriter, 0);
             CurrentRunPageWriter.content(localPrintWriter, this.iSuite, this.passedTests, this.failedTests, this.skippedTests,
@@ -256,7 +283,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
 
     public void startReportingForFailed(List<ITestResult> paramList) {
         PrintWriter localPrintWriter = null;
-        Iterator localIterator = paramList.iterator();
+        Iterator<ITestResult> localIterator = paramList.iterator();
         // for (;;) {
         while (localIterator.hasNext()) {
             ITestResult localITestResult = (ITestResult) localIterator.next();
@@ -285,7 +312,7 @@ public class ReportsListener implements ITestListener, ISuiteListener {
 
     public void startReportingForSkipped(List<ITestResult> paramList) {
         PrintWriter localPrintWriter = null;
-        Iterator localIterator = paramList.iterator();
+        Iterator<ITestResult> localIterator = paramList.iterator();
         // for (;;) {
         while (localIterator.hasNext()) {
             ITestResult localITestResult = (ITestResult) localIterator.next();
@@ -311,5 +338,15 @@ public class ReportsListener implements ITestListener, ISuiteListener {
                 }
             }
         }
+    }
+
+    public static void createInternetShortcut(String shortcutFile, String target, String icon) throws IOException {
+        BufferedWriter br = new BufferedWriter(new FileWriter(shortcutFile));
+
+        br.write("[InternetShortcut]\r\nURL=" + "file:///" + target.replaceAll("\\\\", "/") + "\r\n");
+        if (!icon.equals("")) {
+            br.write("IconFile=" + icon + "\n");
+        }
+        br.close();
     }
 }

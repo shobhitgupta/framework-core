@@ -11,7 +11,6 @@ import com.reporting.enums.Colors;
 import com.reporting.enums.ExceptionDetails;
 import com.reporting.enums.ReportLabels;
 import com.reporting.logging.LogAs;
-import com.reporting.utils.AuthorDetails;
 import com.reporting.utils.Directory;
 import com.reporting.utils.Platform;
 import com.reporting.utils.Steps;
@@ -19,8 +18,8 @@ import com.reporting.utils.Utils;
 
 public class TestCaseReportsPageWriter extends ReportsPage {
     public static void header(PrintWriter paramPrintWriter, ITestResult paramITestResult) {
-        paramPrintWriter
-                .println("<!DOCTYPE html>\n\n<html>\n<head>\n<title>Pie Charts</title>\n\n<link rel=\"stylesheet\"type=\"text/css\"href=\"../"
+        paramPrintWriter.println(
+                "<!DOCTYPE html>\n\n<html>\n<head>\n<title>Pie Charts</title>\n\n<link rel=\"stylesheet\"type=\"text/css\"href=\"../"
                         + getTestCaseHTMLPath(paramITestResult)
                         + "HTML_Design_Files/CSS/design.css\"/>\n<link rel=\"stylesheet\"type=\"text/css\"href=\"../"
                         + getTestCaseHTMLPath(paramITestResult)
@@ -33,35 +32,31 @@ public class TestCaseReportsPageWriter extends ReportsPage {
                         + "HTML_Design_Files/JS/excanvas.js\"></script>\n<![endif]-->\n\n<script language=\"javascript\"type=\"text/javascript\"src=\"../"
                         + getTestCaseHTMLPath(paramITestResult)
                         + "HTML_Design_Files/JS/jqplot.pieRenderer.min.js\"></script>\n<script language=\"javascript\"type=\"text/javascript\">"
-                        + "$(document).ready(function() {"
-                        + "$(\".exception\").hide();"
-                        + "$(\"#showmenu\").show();"
-                        + "$('#showmenu').click(function() {"
-                        + "$('.exception').toggle(\"slide\"); });});"
-                        + "</script></head>\n<body>\n<table id=\"mainTable\">\n<tr id=\"header\">\n<td id=\"logo\"><img src=\"../"
-                        + getTestCaseHTMLPath(paramITestResult)
-                        + "HTML_Design_Files/IMG/"
-                        + ReportLabels.LOGO_LEFT.getLabel()
-                        + "\"alt=\"Logo\"height=\"80\"width=\"140\"/><br/>"
-                        + ReportLabels.LOGO_LEFT_CAPTION.getLabel()
-                        + "</td>\n<td id=\"headertext\">\n"
-                        + ReportLabels.HEADER_TEXT.getLabel()
+                        + "$(document).ready(function() {" + "$(\".exception\").hide();" + "$(\"#showmenu\").show();"
+                        + "$('#showmenu').click(function() {" + "$('.exception').toggle(\"slide\"); });});"
+                        + "</script></head>\n<body>\n<table id=\"mainTable\">\n<TR id=\"header\">\n<TD id=\"logo\"><img src=\"../"
+                        + getTestCaseHTMLPath(paramITestResult) + "HTML_Design_Files/IMG/" + ReportLabels.LOGO_LEFT.getLabel()
+                        + "\"alt=\"Logo\"height=\"80\"width=\"140\"/><br/>" + ReportLabels.LOGO_LEFT_CAPTION.getLabel()
+                        + "</TD>\n<TD id=\"headertext\">\n" + ReportLabels.HEADER_TEXT.getLabel()
                         + "\n<div style=\"padding-right:20px;float:right\">"
                         // + "<img src=\"../"
                         // + getTestCaseHTMLPath(paramITestResult)
                         // + "HTML_Design_Files/IMG/"
                         // + ReportLabels.LOGO_RIGHT.getLabel()
                         // + "\"height=\"70\"width=\"140\"/>"
-                        + "</td>\n" + "</i></div></td>\n</tr>");
+                        + "</TD>\n" + "</i></div></TD>\n</TR>>");
     }
 
     public static String getExecutionTime(ITestResult paramITestResult) {
-        long l = paramITestResult.getEndMillis() - paramITestResult.getStartMillis();
-        if (l > 1000L) {
-            l /= 1000L;
-            return l + "Sec";
+        long duration = paramITestResult.getEndMillis() - paramITestResult.getStartMillis();
+        if (duration > 1000) {
+            duration /= 1000;
+            if (duration > 60) {
+                return duration / 60 + "m " + duration % 60 + "s";
+            }
+            return duration + "s";
         }
-        return l + "Milli Sec";
+        return duration + "ms";
     }
 
     private static String getExceptionDetails(ITestResult paramITestResult) {
@@ -112,81 +107,122 @@ public class TestCaseReportsPageWriter extends ReportsPage {
     }
 
     public static String getReqCoverageInfo(ITestResult paramITestResult) {
-        try {
-            if (paramITestResult.getAttribute("reqCoverage") == null) {
-                return ReportLabels.TC_INFO_LABEL.getLabel();
-            }
-            return paramITestResult.getAttribute("reqCoverage").toString();
-        } catch (Exception localException) {}
-        return ReportLabels.TC_INFO_LABEL.getLabel();
+        // try {
+        // if (paramITestResult.getAttribute("reqCoverage") == null) {
+        // return ReportLabels.TC_INFO_LABEL.getLabel();
+        // }
+        // return ReportLabels.TC_INFO_LABEL.getLabel() +
+        // paramITestResult.getAttribute("reqCoverage").toString();
+        // } catch (Exception localException) {}
+        // return ReportLabels.TC_INFO_LABEL.getLabel();
+
+        return paramITestResult.getAttribute("reqCoverage") == null ? ""
+                : paramITestResult.getAttribute("reqCoverage").toString();
     }
 
     public static void content(PrintWriter paramPrintWriter, ITestResult paramITestResult, int paramInt) {
-        paramPrintWriter
-                .println("<td id=\"content\">\n<div class=\"info\">\nThe following table lists down the Sequential Steps during the Run <br/>\nTestCase Name: <b>"
-                        + paramITestResult.getName()
-                        + ":  Iteration "
-                        + paramITestResult.getAttribute("iteration").toString()
-                        + "</b><br/>"
-                        + "Time Taken for Executing: <b>"
+        paramPrintWriter.println("<TD id=\"content\">\n");
+        // paramPrintWriter.println(
+        // "<div class=\"info\">\nThe following table lists down the Sequential
+        // Steps during the Run <br/>\nTestCase Name: <b>"
+        // + paramITestResult.getName() + ": Iteration " +
+        // paramITestResult.getAttribute("iteration").toString()
+        // + "</b><br/>" + "Time Taken for Executing: <b>" +
+        // getExecutionTime(paramITestResult)
+        // + "</b> <br/>\nCurrent Run Number: <b>Run " + paramInt +
+        // "</b></br>\nMethod Type: <b>"
+        // + CurrentRunPageWriter.getMethodType(paramITestResult) + "</b></br>"
+        // + "</div>");
+        paramPrintWriter.println("<div style=\"background-color: " + getColorBasedOnResult(paramITestResult)
+                + ";color: white;padding-top: 10px;padding-bottom: 10px;\">Status&nbsp;:&nbsp;" + getResult(paramITestResult)
+                + "</div>");
+
+        paramPrintWriter.println(
+                "<div class=\"chartStyle summary\"style=\"background-color: sienna;height:175px;width:47%;\">\n<b>Test Case Summary</b><br/><br/>\n<table>\n"
+                        + "<TR>\n<TD>Test Case Name</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>" + paramITestResult.getName()
+                        + "</TD>\n</TR>>\n\n" + "<TR>\n<TD>Duration</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
                         + getExecutionTime(paramITestResult)
-                        + "</b> <br/>\nCurrent Run Number: <b>Run "
-                        + paramInt
-                        + "</b></br>\nMethod Type: <b>"
-                        + CurrentRunPageWriter.getMethodType(paramITestResult) + "</b></br>" + "</div>");
-        paramPrintWriter.println("<div class=\"info\"><br/><b>Requirement Coverage/ TestCase Description</b><br/><br/>"
-                + getReqCoverageInfo(paramITestResult) + "</div>");
-        paramPrintWriter
-                .println("<div class=\"chartStyle summary\"style=\"background-color: #646D7E;width: 30%; height: 200px;\">\n<b>Execution Platform Details</b><br/><br/>\n<table>\n<tr>\n<td>O.S</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + Platform.OS
-                        + ", "
-                        + Platform.OS_ARCH
-                        + "Bit, v"
-                        + Platform.OS_VERSION
-                        + "</td>\n</tr>\n<tr>\n<td>Java</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + Platform.JAVA_VERSION
-                        + "</td>\n</tr>\n\n<tr>\n<td>Hostname</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
+                        + "</TD>\n</TR>>\n\n<TR>\n<TD>Current Run</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>" + paramInt
+                        + "</TD>\n" + "</TR>>\n\n<TR>\n<TD>Iteration</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
+                        + paramITestResult.getAttribute("iteration").toString() + "</TD>\n</TR>>" + "<TR>\n"
+                        + "<TD>Execution Date</TD>\n" + "<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n" + "<TD>" + Utils.getCurrentTime()
+                        + "</TD>\n" + "</TR>>\n" + "</table>\n" + "</div>\n" + "");
+
+        paramPrintWriter.println(
+                "<div class=\"chartStyle summary\"style=\"background-color: sienna;height:175px;width:47%;margin-left: 20px;\">\n"
+                        + "<b>Execution Platform Details</b><br/><br/>\n<table>\n<TR>\n<TD>O.S</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
+                        + Platform.OS + ", " + Platform.OS_ARCH + "Bit, v" + Platform.OS_VERSION
+                        + "</TD>\n</TR>>\n<TR>\n<TD>Java</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>" + Platform.JAVA_VERSION
+                        + "</TD>\n</TR>>\n\n<TR>\n<TD>Hostname</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
                         + Platform.getHostName()
-                        + "</td>\n</tr>\n\n<tr>\n<td>Selenium</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + Platform.DRIVER_VERSION + "</td>\n" + "</tr>\n" + "</table>\n" + "</div>\n" + "");
-        paramPrintWriter.println("<div class=\"chartStyle summary\"style=\"background-color: "
-                + getColorBasedOnResult(paramITestResult) + ";margin-left: 20px; height: 200px;width: 30%; \">\n"
-                + "<b>Summary</b><br/><br/>\n" + "<table>\n" + "<tr>\n" + "<td>Status</td>\n"
-                + "<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "<td>" + getResult(paramITestResult) + "</td>\n" + "</tr>\n"
-                + "<tr>\n" + "<td>Execution Date</td>\n" + "<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "<td>"
-                + Utils.getCurrentTime() + "</td>\n" + "</tr>\n" + "\n" + "\n" + "<tr>\n" + "<td>Browser</td>\n"
-                + "<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n" + "<td>" + getBrowserName(paramITestResult) + ","
-                + getBrowserVersion(paramITestResult) + "</td>\n" + "</tr>\n" + "</table>\n" + "</div>");
-        AuthorDetails localAuthorDetails = null;
-        try {
-            if (paramITestResult.getAttribute("authorInfo") == null) {
-                localAuthorDetails = new AuthorDetails();
-            } else {
-                localAuthorDetails = (AuthorDetails) paramITestResult.getAttribute("authorInfo");
-            }
-        } catch (Exception localException1) {}
+                        + "</TD>\n</TR>>\n\n<TR>\n<TD>Selenium</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
+                        + Platform.DRIVER_VERSION + "</TD>\n" + "<TR>\n" + "<TD>Browser</TD>\n"
+                        + "<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n" + "<TD>" + getBrowserInfo(paramITestResult) + "</TD>\n"
+                        + "</TR>>\n" + "</TR>>\n" + "</table>\n" + "</div>\n" + "");
+
+        // paramPrintWriter.println("<div class=\"chartStyle
+        // summary\"style=\"background-color: "
+        // + getColorBasedOnResult(paramITestResult) +
+        // ";height:175px;width:30%;margin-left: 20px; \">\n"
+        // + "<b>Summary</b><br/><br/>\n" + "<table>\n" + "<TR>\n" +
+        // "<TD>Status</TD>\n"
+        // + "<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n" + "<TD>" +
+        // getResult(paramITestResult) + "</TD>\n" + "</TR>>\n" + "<TR>\n"
+        // + "<TD>Execution Date</TD>\n" +
+        // "<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n" + "<TD>" +
+        // Utils.getCurrentTime()
+        // + "</TD>\n" + "</TR>>\n" + "\n" + "\n" + "<TR>\n" +
+        // "<TD>Browser</TD>\n" + "<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n"
+        // + "<TD>" + getBrowserInfo(paramITestResult) + "</TD>\n" + "</TR>>\n"
+        // +
+        // "</table>\n" + "</div>\n\n");
+
+        String reqCovInfo = getReqCoverageInfo(paramITestResult);
+        if (reqCovInfo.trim().isEmpty()) {
+            reqCovInfo = "No information provided by user";
+        }
         paramPrintWriter
-                .println("<div class=\"chartStyle summary\"style=\"background-color: #7F525D;margin-left: 20px; height: 200px;width: 30%; \">\n<b>Author Info</b><br/><br/>\n<table>\n<tr>\n<td>Author Name</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + localAuthorDetails.getAuthorName()
-                        + "</td>\n</tr>\n<tr>\n<td>Creation Date</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + localAuthorDetails.getCreationDate()
-                        + "</td>\n</tr>\n<tr>\n<td>Version</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + localAuthorDetails.getVersion()
-                        + "</td>\n</tr>\n<tr>\n<td>System User</td>\n<td>&nbsp;&nbsp;:&nbsp;&nbsp;</td>\n<td>"
-                        + Platform.USER
-                        + "</td>\n</tr>\n</table>\n</div>\n" + "");
+                .println("<div class=\"info\"><b>" + ReportLabels.TC_INFO_LABEL.getLabel() + "</b>" + reqCovInfo + "</div>");
+
+        // AuthorDetails localAuthorDetails = null;
+        // try {
+        // if (paramITestResult.getAttribute("authorInfo") == null) {
+        // localAuthorDetails = new AuthorDetails();
+        // } else {
+        // localAuthorDetails = (AuthorDetails)
+        // paramITestResult.getAttribute("authorInfo");
+        // }
+        // } catch (Exception localException1) {}
+        // paramPrintWriter.println(
+        // "<div class=\"chartStyle summary\"style=\"background-color:
+        // #7F525D;margin-left: 20px; height: 200px;width: 30%; \">\n<b>Author
+        // Info</b><br/><br/>\n<table>\n<TR>\n<TD>Author
+        // Name</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
+        // + localAuthorDetails.getAuthorName()
+        // + "</TD>\n</TR>>\n<TR>\n<TD>Creation
+        // Date</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
+        // + localAuthorDetails.getCreationDate()
+        // +
+        // "</TD>\n</TR>>\n<TR>\n<TD>Version</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>"
+        // + localAuthorDetails.getVersion()
+        // + "</TD>\n</TR>>\n<TR>\n<TD>System
+        // User</TD>\n<TD>&nbsp;&nbsp;:&nbsp;&nbsp;</TD>\n<TD>" + Platform.USER
+        // + "</TD>\n</TR>>\n</table>\n</div>\n" + "");
+        //
         Object localObject1;
         int i;
         Object localObject2;
         if (paramITestResult.getStatus() != 3) {
             localObject1 = Reporter.getOutput(paramITestResult);
-            paramPrintWriter
-                    .println("<div>\n<table class=\"chartStyle\"id=\"tableStyle\"style=\"height:50px; float: left\">\n<tr>\n<th>S.No</th>\n<th>Step Description</th>\n<th>Input Value</th>\n<th>Expected Value</th>\n<th>Actual Value</th>\n<th>Time</th>\n<th>Line No</th>\n<th>Status</th>\n<th>Screen shot</th>\n</tr>\n\n");
+            paramPrintWriter.println(
+                    "<div>\n<table class=\"chartStyle\"id=\"tableStyle\"style=\"height:50px; float: left\">\n<TR>\n<TH>S.No</TH>\n"
+                            + "<TH>Step Description</TH>\n<TH>Input Value</TH>\n<TH>Expected Value</TH>\n<TH>Actual Value</TH>\n"
+                            + "<TH>Status</TH>\n<TH>Screen shot</TH>\n</TR>>\n\n");
             i = 1;
             if (Reporter.getOutput(paramITestResult).size() <= 0) {
-                paramPrintWriter.print("<tr>");
-                paramPrintWriter.print("<td colspan=\"8\"><b>No Steps Available</b></td>");
-                paramPrintWriter.print("</tr>");
+                paramPrintWriter.print("<TR>");
+                paramPrintWriter.print("<TD colspan=\"8\"><b>No Steps Available</b></TD>");
+                paramPrintWriter.print("</TR>>");
             }
             i = 1;
             Iterator localIterator = ((List) localObject1).iterator();
@@ -194,28 +230,30 @@ public class TestCaseReportsPageWriter extends ReportsPage {
                 localObject2 = (String) localIterator.next();
                 Steps localSteps = (Steps) paramITestResult.getAttribute((String) localObject2);
                 if (localSteps == null) {
-                    paramPrintWriter.print("<tr>");
-                    paramPrintWriter.println("<td>" + i + "</td>");
-                    paramPrintWriter.print("<td style=\"text-align:left\"colspan=\"8\">" + (String) localObject2 + "</td></tr>");
+                    paramPrintWriter.print("<TR>");
+                    paramPrintWriter.println("<TD>" + i + "</TD>");
+                    paramPrintWriter.print("<TD style=\"text-align:left\"colspan=\"8\">" + (String) localObject2 + "</TD></TR>>");
                     i++;
                 } else {
-                    paramPrintWriter.print("<tr>");
-                    paramPrintWriter.println("<td>" + i + "</td>");
-                    paramPrintWriter.println("<td>" + localSteps.getDescription() + "</td>");
-                    paramPrintWriter.println("<td>" + localSteps.getInputValue() + "</td>");
-                    paramPrintWriter.println("<td>" + localSteps.getExpectedValue() + "</td>");
-                    paramPrintWriter.println("<td>" + localSteps.getActualValue() + "</td>");
-                    paramPrintWriter.println("<td>" + localSteps.getTime() + "</td>");
-                    paramPrintWriter.println("<td>" + localSteps.getLineNum() + "</td>");
-                    paramPrintWriter.println("<td>" + getLogDescription(localSteps.getLogAs(), paramITestResult) + "</td>");
+                    paramPrintWriter.print("<TR>");
+                    paramPrintWriter.println("<TD>" + i + "</TD>");
+                    paramPrintWriter.println("<TD>" + localSteps.getDescription() + "</TD>");
+                    paramPrintWriter.println("<TD>" + localSteps.getInputValue() + "</TD>");
+                    paramPrintWriter.println("<TD>" + localSteps.getExpectedValue() + "</TD>");
+                    paramPrintWriter.println("<TD>" + localSteps.getActualValue() + "</TD>");
+                    // paramPrintWriter.println("<TD>" + localSteps.getTime() +
+                    // "</TD>");
+                    // paramPrintWriter.println("<TD>" + localSteps.getLineNum()
+                    // + "</TD>");
+                    paramPrintWriter.println("<TD>" + getLogDescription(localSteps.getLogAs(), paramITestResult) + "</TD>");
                     try {
                         long ssNum = Long.parseLong(localSteps.getScreenShot().trim());
-                        paramPrintWriter.println("<td><a href=\"img/" + ssNum + ".PNG\"><img alt=\"Screenshot\"src=\"img/"
-                                + ssNum + ".PNG" + "\"/></a></td>");
+                        paramPrintWriter.println("<TD><a href=\"img/" + ssNum + ".PNG\"><img alt=\"Screenshot\"src=\"img/" + ssNum
+                                + ".PNG" + "\"/></a></TD>");
                     } catch (Exception e) {
-                        paramPrintWriter.println("<td></td>");
+                        paramPrintWriter.println("<TD></TD>");
                     }
-                    paramPrintWriter.print("</tr>");
+                    paramPrintWriter.print("</TR>>");
                     i++;
                 }
             }
@@ -223,16 +261,16 @@ public class TestCaseReportsPageWriter extends ReportsPage {
         }
         if ((paramITestResult.getParameters().length > 0) || (paramITestResult.getStatus() == 3)
                 || (paramITestResult.getStatus() == 2)) {
-            paramPrintWriter
-                    .println("<div class=\"chartStyle summary\"style=\"color: black;width: 98%; height: 30%; padding-bottom: 30px;\">\n");
+            paramPrintWriter.println(
+                    "<div class=\"chartStyle summary\"style=\"color: red;width: 98%; height: inherit; padding-bottom: 10px;\">\n");
             if (paramITestResult.getParameters().length > 0) {
                 paramPrintWriter.print("<b>Parameters: </b><br/>");
                 for (Object loopVar1 : paramITestResult.getParameters()) {
                     paramPrintWriter.print("Param: " + loopVar1.toString() + "<br/>");
                 }
+                paramPrintWriter.print("<br/><br/>");
             }
             if (paramITestResult.getStatus() == 3) {
-                paramPrintWriter.print("<br/><br/>");
                 paramPrintWriter.println("<b>Reason for Skipping</b><br/><br/>\n");
                 localObject1 = paramITestResult.getMethod().getGroupsDependedUpon();
                 String[] arrayOfString = paramITestResult.getMethod().getMethodsDependedUpon();
@@ -255,9 +293,8 @@ public class TestCaseReportsPageWriter extends ReportsPage {
                 paramPrintWriter.print("</div>");
             }
             if (paramITestResult.getStatus() == 2) {
-                paramPrintWriter.println("<br/><br/><b>Reason for Failure:&nbsp;&nbsp;</b>"
-                        + getExceptionDetails(paramITestResult)
-                        + "<br/><br/>\n<b id=\"showmenu\">Click Me to Show/Hide the Full Stack Trace</b>"
+                paramPrintWriter.println("<b>Reason for Failure:&nbsp;&nbsp;</b>" + getExceptionDetails(paramITestResult)
+                        + "<br/>\n<b id=\"showmenu\">Click Me to Show/Hide the Full Stack Trace</b>"
                         + "<div class=\"exception\">");
                 try {
                     paramITestResult.getThrowable().printStackTrace(paramPrintWriter);
@@ -266,7 +303,7 @@ public class TestCaseReportsPageWriter extends ReportsPage {
             }
             paramPrintWriter.print("</div>");
         }
-        paramPrintWriter.print("</div>\n\n</td>\n</tr>");
+        paramPrintWriter.print("</div>\n\n</TD>\n</TR>>");
     }
 
     public static String getLogDescription(LogAs paramLogAs, ITestResult paramITestResult) {
@@ -301,7 +338,7 @@ public class TestCaseReportsPageWriter extends ReportsPage {
         return "";
     }
 
-    private static String getBrowserName(ITestResult paramITestResult) {
+    private static String getBrowserInfo(ITestResult paramITestResult) {
         try {
             return paramITestResult.getAttribute(Platform.BROWSER_NAME_PROP).toString();
         } catch (Exception localException) {}
@@ -359,27 +396,36 @@ public class TestCaseReportsPageWriter extends ReportsPage {
         return str;
     }
 
-    public static void menuLink(PrintWriter paramPrintWriter, ITestResult paramITestResult, int paramInt) {
-        getTestCaseHTMLPath(paramITestResult);
-        paramPrintWriter.println("\n<tr id=\"container\">\n<td id=\"menu\">\n<ul>\n");
-        paramPrintWriter.println("<li class=\"menuStyle\"><a href=\"../" + getTestCaseHTMLPath(paramITestResult)
-                + "index.html\">Index</a></li>" + "<li style=\"padding-top: 4px;\"><a href=\""
-                + getTestCaseHTMLPath(paramITestResult) + "ConsolidatedPage.html\">Consolidated Page</a></li>\n");
-        if (paramInt == 1) {
-            paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUNName + paramInt + Directory.SEP
-                    + "CurrentRun.html\">" + "Run " + paramInt + "</a></li>\n");
-        } else {
-            for (int i = 1; i <= paramInt; i++) {
-                if (i == paramInt) {
-                    paramPrintWriter.println("\n<li style=\"padding-top: 4px;padding-bottom: 4px;\"><a href=\""
-                            + Directory.RUNName + i + Directory.SEP + "CurrentRun.html\">" + "Run " + i + "</a></li>\n");
-                    break;
-                }
-                paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" + Directory.RUNName + i + Directory.SEP
-                        + "CurrentRun.html\">" + "Run " + i + "</a></li>\n");
-            }
-        }
-        paramPrintWriter.println("\n</ul>\n</td>\n\n");
+    public static void menuLink(PrintWriter paramPrintWriter, ITestResult paramITestResult, int runNum) {
+        String relPath = getTestCaseHTMLPath(paramITestResult);
+        paramPrintWriter.println("\n<TR id=\"container\">\n<TD id=\"menu\">\n<ul>\n");
+        paramPrintWriter
+                .println("<li class=\"menuStyle\"><a href=\"" + relPath + "CurrentRun.html" + "\">Back To Summary</a></li>\n");
+        // paramPrintWriter.println("<li class=\"menuStyle\"><a href=\"../" +
+        // getTestCaseHTMLPath(paramITestResult)
+        // + "index.html\">Index</a></li>" + "<li style=\"padding-top: 4px;\"><a
+        // href=\""
+        // + getTestCaseHTMLPath(paramITestResult) +
+        // "ConsolidatedPage.html\">Consolidated Page</a></li>\n");
+        // if (runNum == 1) {
+        // paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" +
+        // Directory.RUN_PREFIX + runNum + Directory.SEP
+        // + "CurrentRun.html\">" + "Run " + runNum + "</a></li>\n");
+        // } else {
+        // for (int i = 1; i <= runNum; i++) {
+        // if (i == runNum) {
+        // paramPrintWriter.println("\n<li style=\"padding-top:
+        // 4px;padding-bottom: 4px;\"><a href=\""
+        // + Directory.RUN_PREFIX + i + Directory.SEP + "CurrentRun.html\">" +
+        // "Run " + i + "</a></li>\n");
+        // break;
+        // }
+        // paramPrintWriter.println("\n<li class=\"menuStyle\"><a href=\"" +
+        // Directory.RUN_PREFIX + i + Directory.SEP
+        // + "CurrentRun.html\">" + "Run " + i + "</a></li>\n");
+        // }
+        // }
+        paramPrintWriter.println("\n</ul>\n</TD>\n\n");
     }
 }
 
